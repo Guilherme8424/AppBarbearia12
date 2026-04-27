@@ -3,418 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Barbearia Camisa 12 Sports - Fila de Atendimento</title>
+    <title>Barbearia Camisa 12 Sports - Painel do Barbeiro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #e8f4f8 0%, #d4eaf0 100%); min-height: 100vh; padding: 20px; }
-        .container { max-width: 550px; margin: 0 auto; }
-        .header { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 30px; padding: 25px; text-align: center; margin-bottom: 20px; color: white; }
-        .logo-3d { display: flex; justify-content: center; margin-bottom: 15px; perspective: 1000px; }
-        .logo-card { background: linear-gradient(145deg, #2a2a3e, #1a1a2e); width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 30px rgba(0,0,0,0.4); transform-style: preserve-3d; animation: rotate3d 4s ease-in-out infinite; border: 2px solid #e6b422; }
-        @keyframes rotate3d { 0% { transform: rotateY(0deg); } 50% { transform: rotateY(10deg); } 100% { transform: rotateY(0deg); } }
-        .logo-emoji { font-size: 4.5rem; }
-        .logo-text { margin-top: 10px; font-size: 0.8rem; letter-spacing: 3px; color: #e6b422; text-transform: uppercase; font-weight: bold; }
-        .header h1 { color: white; font-size: 1.3rem; }
-        .header p { color: #ccc; font-size: 0.7rem; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0f1a, #1a1a2e); min-height: 100vh; padding: 20px; color: #fff; }
+        .container { max-width: 1200px; margin: 0 auto; }
         
-        /* STATUS DA FILA */
-        .fila-status {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border-radius: 20px;
-            padding: 15px;
-            margin-bottom: 20px;
-            text-align: center;
-            color: white;
-        }
-        .fila-status h3 { color: #e6b422; margin-bottom: 10px; }
-        .fila-atual {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #e6b422;
-            background: rgba(255,255,255,0.1);
-            display: inline-block;
-            padding: 10px 30px;
-            border-radius: 50px;
-            margin: 10px 0;
-        }
-        .total-espera {
-            font-size: 1rem;
-            color: #ccc;
-        }
+        .header { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 25px; padding: 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border: 1px solid #e6b42230; }
+        .logo h1 { color: #e6b422; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        .stats { display: flex; gap: 15px; flex-wrap: wrap; }
+        .stat-card { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 10px 20px; text-align: center; backdrop-filter: blur(10px); }
+        .stat-number { font-size: 1.8rem; font-weight: bold; color: #e6b422; }
+        .stat-label { font-size: 0.7rem; color: #aaa; }
         
-        .app-banner { background: linear-gradient(135deg, #2d2d44, #1a1a2e); border-radius: 25px; padding: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; border: 1px solid #e6b422; }
-        .app-info { flex: 2; min-width: 180px; }
-        .app-info h3 { color: #e6b422; font-size: 1rem; }
-        .app-info p { color: #ccc; font-size: 0.7rem; }
-        .qr-code-app { text-align: center; background: white; padding: 12px; border-radius: 20px; cursor: pointer; min-width: 110px; }
-        .qr-code-app canvas { width: 80px !important; height: 80px !important; }
-        .qr-code-app small { font-size: 0.65rem; color: #555; display: block; }
-        .qr-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; }
-        .qr-modal-content { background: white; border-radius: 30px; padding: 25px; text-align: center; max-width: 85%; }
-        .qr-modal-content canvas { width: 250px !important; height: 250px !important; margin: 15px 0; }
-        .modal-close { background: #e6b422; border: none; padding: 10px 20px; border-radius: 25px; margin-top: 10px; cursor: pointer; }
-        .combo-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; }
-        .combo-modal-content { background: white; border-radius: 30px; padding: 25px; max-width: 90%; width: 400px; text-align: center; }
-        .combo-modal-content h3 { color: #e6b422; margin-bottom: 20px; }
-        .combo-items { list-style: none; text-align: left; }
-        .combo-items li { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; }
-        .combo-total { background: #fff8e7; padding: 15px; border-radius: 15px; margin: 15px 0; text-align: center; }
-        .service-select { margin-bottom: 15px; }
-        .service-select label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
-        .dropdown-select { width: 100%; padding: 14px; background: white; border: 2px solid #e0e0e0; border-radius: 20px; font-size: 1rem; cursor: pointer; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23e6b422" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>'); background-repeat: no-repeat; background-position: right 15px center; }
-        .service-price-display { background: #f8f9fa; padding: 10px; border-radius: 15px; margin-top: 10px; text-align: center; font-weight: bold; color: #e6b422; }
-        .combo-card { background: linear-gradient(135deg, #fff8e7, #fff4dc); border: 2px solid #e6b422; border-radius: 20px; padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; margin-bottom: 15px; }
-        .form-card { background: white; border-radius: 25px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        label { display: block; margin-top: 12px; margin-bottom: 5px; font-weight: 600; color: #333; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 15px; font-size: 1rem; }
+        .atendimento-card { background: linear-gradient(135deg, #e6b422, #ffce4a); border-radius: 30px; padding: 25px; margin-bottom: 25px; text-align: center; color: #1a1a2e; }
+        .atendimento-card h2 { font-size: 1rem; opacity: 0.8; margin-bottom: 10px; }
+        .atendimento-senha { font-size: 4rem; font-weight: 800; letter-spacing: 5px; background: white; display: inline-block; padding: 15px 40px; border-radius: 60px; margin: 10px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .atendimento-nome { font-size: 1.2rem; font-weight: 600; margin: 10px 0; }
+        .btn-chamar { background: #1a1a2e; color: #e6b422; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 15px; transition: 0.2s; }
+        .btn-chamar:hover { transform: scale(1.02); box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
         
-        /* SENHA */
-        .senha-container {
-            background: linear-gradient(135deg, #28a745, #20c997);
-            border-radius: 20px;
-            padding: 15px;
-            margin: 10px 0;
-            text-align: center;
-            cursor: pointer;
-        }
-        .senha-title { color: white; font-weight: bold; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .senha-number { font-size: 2rem; font-weight: bold; color: white; letter-spacing: 2px; background: rgba(0,0,0,0.2); display: inline-block; padding: 8px 25px; border-radius: 50px; margin: 10px 0; }
-        .senha-position { font-size: 0.9rem; color: white; margin-top: 5px; }
-        .senha-timer { background: rgba(0,0,0,0.1); border-radius: 15px; padding: 8px; margin-top: 8px; font-size: 0.8rem; color: white; }
-        .senha-btn { background: white; color: #28a745; border: none; padding: 8px 16px; border-radius: 25px; margin-top: 8px; cursor: pointer; font-weight: bold; }
+        .dashboard { display: flex; flex-wrap: wrap; gap: 25px; }
+        .fila-area { flex: 2; min-width: 300px; }
+        .config-area { flex: 1; min-width: 280px; }
+        .card { background: rgba(255,255,255,0.05); border-radius: 25px; padding: 20px; margin-bottom: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .card h3 { color: #e6b422; margin-bottom: 15px; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
         
-        .pix-container { background: linear-gradient(135deg, #6c2bd4, #8b5cf6); border-radius: 20px; padding: 20px; margin: 10px 0; text-align: center; }
-        .pix-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
-        .pix-tab { flex: 1; background: rgba(255,255,255,0.2); border: none; padding: 10px; border-radius: 15px; color: white; font-weight: bold; cursor: pointer; }
-        .pix-tab.active { background: white; color: #6c2bd4; }
-        .pix-content { display: none; }
-        .pix-content.active { display: block; }
-        .pix-title { color: white; font-weight: bold; margin-bottom: 10px; font-size: 1rem; }
-        .pix-key-box { background: white; border-radius: 15px; padding: 15px; margin: 10px 0; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-        .pix-key-value { font-size: 1rem; font-weight: bold; color: #333; word-break: break-all; flex: 1; }
-        .btn-copy-pix { background: #6c2bd4; color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-weight: bold; }
-        .pix-value { background: rgba(255,255,255,0.2); border-radius: 12px; padding: 10px; margin-top: 10px; color: white; font-weight: bold; font-size: 1.1rem; }
-        .pix-qr-custom { background: white; border-radius: 20px; padding: 15px; margin: 10px 0; text-align: center; }
-        .pix-qr-custom img { max-width: 180px; width: 100%; height: auto; margin: 0 auto; }
+        .fila-list { max-height: 400px; overflow-y: auto; }
+        .fila-item { background: rgba(255,255,255,0.08); border-radius: 20px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .fila-item:hover { background: rgba(255,255,255,0.12); }
+        .fila-senha { font-size: 1.3rem; font-weight: bold; color: #e6b422; background: rgba(0,0,0,0.3); padding: 5px 15px; border-radius: 30px; }
+        .fila-info { flex: 1; }
+        .fila-nome { font-weight: 600; }
+        .fila-servico { font-size: 0.7rem; color: #aaa; }
+        .fila-tempo { font-size: 0.7rem; color: #aaa; }
+        .btn-remover { background: rgba(255,255,255,0.1); border: none; padding: 8px 15px; border-radius: 20px; color: #ff6b6b; cursor: pointer; }
         
-        .info-cartao { background: #e8f4f8; padding: 10px; border-radius: 12px; font-size: 0.7rem; text-align: center; margin-top: 5px; display: none; }
-        .payment-options { display: flex; gap: 12px; margin-top: 5px; flex-wrap: wrap; }
-        .payment-card { flex: 1; background: #f8f9fa; border: 2px solid #e0e0e0; border-radius: 15px; padding: 12px; text-align: center; cursor: pointer; }
-        .payment-card.selected { border-color: #e6b422; background: #fff8e7; }
-        .payment-icon { font-size: 1.5rem; }
-        .total-area { background: #f8f9fa; border-radius: 15px; padding: 12px; text-align: center; margin: 15px 0; }
-        .total-value { font-size: 1.8rem; font-weight: bold; color: #e6b422; }
-        .btn-agendar { background: #e6b422; width: 100%; padding: 15px; border: none; border-radius: 30px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 15px; }
-        footer { text-align: center; padding: 20px; color: #888; font-size: 0.7rem; }
+        .config-item { margin-bottom: 15px; }
+        .config-item label { display: block; font-size: 0.8rem; margin-bottom: 5px; color: #aaa; }
+        .config-item input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 15px; color: white; font-size: 0.9rem; }
+        .config-item input:focus { outline: none; border-color: #e6b422; }
+        .btn-save { background: #e6b422; color: #1a1a2e; border: none; padding: 12px; border-radius: 20px; width: 100%; font-weight: bold; cursor: pointer; }
+        .historico-list { max-height: 200px; overflow-y: auto; }
+        .historico-item { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 10px; margin-bottom: 8px; font-size: 0.8rem; display: flex; justify-content: space-between; }
         
-        .senha-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center; }
-        .senha-modal-content { background: linear-gradient(135deg, #28a745, #20c997); border-radius: 40px; padding: 30px; text-align: center; max-width: 85%; border: 2px solid white; }
-        .senha-modal-content h2 { color: white; margin-bottom: 15px; }
-        .senha-modal-big { font-size: 4rem; font-weight: bold; color: #28a745; background: white; padding: 20px; border-radius: 20px; margin: 15px 0; }
-        .senha-modal-content p { color: white; }
-        @media (max-width: 480px) { .app-banner { flex-direction: column; text-align: center; } }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #e6b422; border-radius: 10px; }
+        
+        @media (max-width: 768px) { .dashboard { flex-direction: column; } .atendimento-senha { font-size: 2.5rem; padding: 10px 20px; } }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
-        <div class="logo-3d"><div class="logo-card"><div class="logo-emoji">🧔🏼‍♂️</div></div></div>
-        <div class="logo-text">BARBEARIA</div>
-        <h1>Camisa 12 Sports</h1>
-        <p>Corte, barba e estilo para o verdadeiro camisa 12</p>
-    </div>
-
-    <!-- STATUS DA FILA EM TEMPO REAL -->
-    <div class="fila-status">
-        <h3>🎫 FILA DE ATENDIMENTO</h3>
-        <div>Estamos atendendo agora:</div>
-        <div class="fila-atual" id="senhaAtualDisplay">---</div>
-        <div class="total-espera" id="pessoasNaFrente">Pessoas na fila: 0</div>
-    </div>
-
-    <div class="app-banner">
-        <div class="app-info"><h3>📱 BAIXE NOSSO APP</h3><p>Agende seus horários direto do seu celular</p></div>
-        <div class="qr-code-app" id="qrCodeAppBtn"><div id="qrCodeAppContainer"></div><strong>📲 APP</strong><small>Clique para ampliar</small></div>
-    </div>
-
-    <div class="service-select">
-        <label>✂️ Selecione o serviço:</label>
-        <select id="servicoSelect" class="dropdown-select">
-            <option value="corte">✂️ Corte Masculino - R$ 40</option>
-            <option value="barba">🧔 Barba Premium - R$ 35</option>
-        </select>
-        <div class="service-price-display" id="servicoPriceDisplay">💰 Valor: R$ 40,00</div>
-    </div>
-
-    <div class="combo-card" id="comboCard">
-        <div><strong>🏆 COMBO CAMISA 12</strong><div style="font-size:0.7rem; color:#888;">✂️ Corte + 🧔 Barba + 💈 Acabamento</div></div>
-        <div class="service-price" id="precoCombo">R$ 70</div>
-    </div>
-
-    <div class="form-card">
-        <div class="total-area"><span>💰 VALOR TOTAL</span><div class="total-value" id="totalValor">R$ 40,00</div></div>
-
-        <label>👤 Seu nome</label>
-        <input type="text" id="nome" placeholder="Digite seu nome completo">
-
-        <label>📞 Seu WhatsApp (com DDD)</label>
-        <input type="tel" id="whats" placeholder="Ex: 5521989533627">
-        <small style="color:#888;">Você será avisado quando chegar sua vez</small>
-
-        <label>💳 Forma de Pagamento</label>
-        <div class="payment-options" id="paymentOptions">
-            <div class="payment-card" data-pagamento="pix"><div class="payment-icon">💳</div><div class="payment-name">PIX</div></div>
-            <div class="payment-card" data-pagamento="dinheiro"><div class="payment-icon">💰</div><div class="payment-name">Dinheiro</div></div>
-            <div class="payment-card" data-pagamento="cartao"><div class="payment-icon">💳</div><div class="payment-name">Cartão</div></div>
+        <div class="logo">
+            <h1>⚽✂️ Barbearia Camisa 12 Sports</h1>
+            <p>Painel de Controle - Fila de Atendimento</p>
         </div>
-
-        <!-- SENHA DA FILA -->
-        <div class="senha-container" id="senhaContainer">
-            <div class="senha-title">🎫 SUA POSIÇÃO NA FILA</div>
-            <div class="senha-number" id="senhaDisplay">---</div>
-            <div class="senha-position" id="posicaoDisplay"></div>
-            <div class="senha-timer" id="timerDisplay"></div>
-            <button class="senha-btn" id="entrarFilaBtn">🎫 ENTRAR NA FILA</button>
+        <div class="stats">
+            <div class="stat-card"><div class="stat-number" id="totalFila">0</div><div class="stat-label">Na Fila</div></div>
+            <div class="stat-card"><div class="stat-number" id="totalAtendidos">0</div><div class="stat-label">Atendidos Hoje</div></div>
         </div>
+    </div>
 
-        <!-- PIX -->
-        <div class="pix-container">
-            <div class="pix-tabs">
-                <button class="pix-tab active" id="tabChave">🔑 CHAVE PIX</button>
-                <button class="pix-tab" id="tabQrCode">📱 QR CODE</button>
-            </div>
-            <div class="pix-content active" id="contentChave">
-                <div class="pix-title">🟣 PIX - Banco Nubank</div>
-                <div class="pix-key-box">
-                    <span class="pix-key-value" id="pixKeyDisplay">10189438703</span>
-                    <button class="btn-copy-pix" id="copyPixBtn">📋 Copiar</button>
+    <!-- Atendimento Atual -->
+    <div class="atendimento-card">
+        <h2>🔔 ATENDENDO AGORA</h2>
+        <div class="atendimento-senha" id="senhaAtual">---</div>
+        <div class="atendimento-nome" id="clienteAtualNome">Aguardando próximo</div>
+        <div class="atendimento-info" id="clienteAtualInfo" style="font-size:0.8rem;"></div>
+        <button class="btn-chamar" id="btnProximo">📢 CHAMAR PRÓXIMO CLIENTE</button>
+    </div>
+
+    <div class="dashboard">
+        <div class="fila-area">
+            <div class="card">
+                <h3>📋 CLIENTES NA FILA</h3>
+                <div class="fila-list" id="filaList">
+                    <div style="text-align:center; padding:40px; color:#aaa;">Nenhum cliente na fila</div>
                 </div>
-                <div class="pix-value" id="pixValorDisplay">💰 Valor: R$ 40,00</div>
             </div>
-            <div class="pix-content" id="contentQrCode">
-                <div class="pix-title">📱 ESCANEIE O QR CODE</div>
-                <div class="pix-qr-custom">
-                    <img src="https://via.placeholder.com/180x180?text=SEU+QR+CODE" id="meuQrCode">
+            <div class="card">
+                <h3>📜 HISTÓRICO DE ATENDIMENTOS</h3>
+                <div class="historico-list" id="historicoList">
+                    <div style="text-align:center; padding:20px; color:#aaa;">Nenhum atendimento ainda</div>
                 </div>
-                <div class="pix-value" id="pixValorDisplay2">💰 Valor: R$ 40,00</div>
+                <button id="limparHistorico" style="background:rgba(255,255,255,0.1); border:none; padding:8px; border-radius:15px; width:100%; margin-top:10px; color:#aaa; cursor:pointer;">Limpar Histórico</button>
             </div>
         </div>
 
-        <div class="info-cartao" id="infoCartao">💳 Pagamento com Cartão: A máquina estará disponível no local.</div>
-
-        <button class="btn-agendar" id="btnConfirmarFila">📌 CONFIRMAR E ENTRAR NA FILA</button>
-    </div>
-    <footer>Barbearia Camisa 12 Sports • Fila de Atendimento</footer>
-</div>
-
-<!-- MODAL DE SENHA -->
-<div id="senhaModal" class="senha-modal">
-    <div class="senha-modal-content">
-        <h2>🎫 VOCÊ ESTÁ NA FILA!</h2>
-        <div class="senha-modal-big" id="senhaModalDisplay">---</div>
-        <p id="modalPosicaoDisplay"></p>
-        <p id="modalTimerDisplay"></p>
-        <button class="modal-close" id="closeSenhaModal">Fechar</button>
+        <div class="config-area">
+            <div class="card">
+                <h3>⚙️ CONFIGURAÇÕES</h3>
+                <div class="config-item">
+                    <label>📞 Seu WhatsApp (Dono)</label>
+                    <input type="tel" id="donoWhats" placeholder="5521989533627">
+                </div>
+                <div class="config-item">
+                    <label>⏱️ Tempo médio por atendimento (minutos)</label>
+                    <input type="number" id="tempoAtendimento" value="10" min="5" max="30">
+                </div>
+                <button class="btn-save" id="saveConfig">💾 Salvar Configurações</button>
+            </div>
+            <div class="card">
+                <h3>ℹ️ COMO USAR</h3>
+                <div style="font-size:0.8rem; line-height:1.6; color:#aaa;">
+                    <p>✅ 1. Cliente entra na fila pelo APP</p>
+                    <p>✅ 2. Cliente recebe SENHA (001, 002, 003...)</p>
+                    <p>✅ 3. Terminou atendimento? Clique em "CHAMAR PRÓXIMO"</p>
+                    <p>✅ 4. Cliente recebe aviso no WhatsApp</p>
+                    <p>✅ 5. Cliente sai da fila e vai para Histórico</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<div id="comboModal" class="combo-modal"><div class="combo-modal-content"><h3>🏆 COMBO CAMISA 12</h3><ul class="combo-items"><li><span>✂️ Corte Esportivo</span><span>R$ 40,00</span></li><li><span>🧔 Barba Premium</span><span>R$ 35,00</span></li><li><span>💈 Acabamento Especial</span><span>Incluso</span></li><li><span>💆 Toalha quente</span><span>Incluso</span></li><li><span>🧴 Produtos de qualidade</span><span>Incluso</span></li></ul><div class="combo-total"><span>💰 Total: R$ 70,00</span></div><button class="modal-close" id="closeComboModalBtn">Fechar</button></div></div>
-
-<div id="qrAppModal" class="qr-modal"><div class="qr-modal-content"><h3>📱 BAIXE NOSSO APP</h3><p>Escaneie o QR Code</p><div id="qrAppModalContainer"></div><button class="modal-close" id="closeQrAppModal">Fechar</button></div></div>
-
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
     // ========== CONFIGURAÇÕES ==========
-    const CHAVE_PIX = "10189438703";
-    const DONO_WHATSAPP = "5521989533627";
-    const LINK_APP = "https://guilherme8424.github.io/AppBarbearia12/";
-    const LINK_QR_CODE_IMAGEM = "https://via.placeholder.com/180x180?text=SEU+QR+CODE";
-    
-    // FILA - controle
     let filaClientes = JSON.parse(localStorage.getItem('filaClientes') || '[]');
+    let historicoAtendidos = JSON.parse(localStorage.getItem('historicoAtendidos') || '[]');
     let senhaAtualAtendimento = parseInt(localStorage.getItem('senhaAtualAtendimento') || '0');
+    let donoWhats = localStorage.getItem('donoWhats') || "5521989533627";
+    let tempoAtendimento = parseInt(localStorage.getItem('tempoAtendimento') || '10');
     let ultimaSenha = parseInt(localStorage.getItem('ultimaSenha') || '0');
-    
-    let clienteLogado = null; // cliente que está na sessão atual
-    let abaAtiva = "chave";
     // ===================================
 
-    let precos = { corte: 40, barba: 35, combo: 70 };
-    let servicoSelecionado = "corte";
-    let pagamentoSelecionado = "pix";
-
-    const pagamentoEmoji = { pix: "💳 PIX", dinheiro: "💰 Dinheiro", cartao: "💳 Cartão" };
-
-    function alternarAba(aba) {
-        abaAtiva = aba;
-        document.getElementById('tabChave').classList.toggle('active', aba === 'chave');
-        document.getElementById('tabQrCode').classList.toggle('active', aba === 'qrCode');
-        document.getElementById('contentChave').classList.toggle('active', aba === 'chave');
-        document.getElementById('contentQrCode').classList.toggle('active', aba === 'qrCode');
-    }
-    
-    function carregarImagemQRCode() {
-        const imgElement = document.getElementById('meuQrCode');
-        if(imgElement) imgElement.src = LINK_QR_CODE_IMAGEM;
-    }
-
-    function atualizarStatusFila() {
-        // Atualiza quem está sendo atendido agora
-        document.getElementById('senhaAtualDisplay').innerHTML = senhaAtualAtendimento === 0 ? "---" : String(senhaAtualAtendimento).padStart(3, '0');
-        
-        // Pessoas na frente do cliente atual
-        if(clienteLogado) {
-            const pessoasNaFrente = filaClientes.filter(c => c.senha < clienteLogado.senha && c.status === 'aguardando').length;
-            document.getElementById('pessoasNaFrente').innerHTML = `Pessoas na sua frente: ${pessoasNaFrente}`;
-            
-            // Tempo estimado
-            const tempoEspera = pessoasNaFrente * 10;
-            const tempoTexto = tempoEspera >= 60 ? `${Math.floor(tempoEspera/60)}h ${tempoEspera%60}min` : `${tempoEspera}min`;
-            document.getElementById('timerDisplay').innerHTML = `⏱️ Tempo estimado: ${tempoTexto} `;
-        } else {
-            const totalFila = filaClientes.filter(c => c.status === 'aguardando').length;
-            document.getElementById('pessoasNaFrente').innerHTML = `Pessoas na fila: ${totalFila}`;
-        }
-    }
-
-    function entrarNaFila() {
-        const nome = document.getElementById('nome').value.trim();
-        const whats = document.getElementById('whats').value.trim();
-        
-        if(!nome || !whats) {
-            alert("⚠️ Preencha nome e WhatsApp antes de entrar na fila!");
-            return;
-        }
-        
-        // Gerar nova senha
-        ultimaSenha++;
-        localStorage.setItem('ultimaSenha', ultimaSenha);
-        
-        const novaSenha = ultimaSenha;
-        const posicao = filaClientes.filter(c => c.status === 'aguardando').length + 1;
-        const tempoEspera = (posicao - 1) * 10;
-        const tempoTexto = tempoEspera >= 60 ? `${Math.floor(tempoEspera/60)}h ${tempoEspera%60}min` : `${tempoEspera}min`;
-        
-        // Novo cliente na fila
-        clienteLogado = {
-            senha: novaSenha,
-            nome: nome,
-            whats: whats,
-            servico: servicoSelecionado,
-            valor: servicoSelecionado === 'corte' ? precos.corte : (servicoSelecionado === 'barba' ? precos.barba : precos.combo),
-            pagamento: pagamentoSelecionado,
-            status: 'aguardando',
-            entrada: new Date().toISOString()
-        };
-        
-        filaClientes.push(clienteLogado);
+    function salvarDados() {
         localStorage.setItem('filaClientes', JSON.stringify(filaClientes));
-        
-        // Atualizar display
-        const senhaFormatada = String(novaSenha).padStart(3, '0');
-        document.getElementById('senhaDisplay').innerHTML = senhaFormatada;
-        document.getElementById('posicaoDisplay').innerHTML = `📌 Posição na fila: ${posicao}º`;
-        document.getElementById('timerDisplay').innerHTML = `⏱️ Tempo estimado: ${tempoTexto}`;
-        
-        document.getElementById('senhaModalDisplay').innerHTML = senhaFormatada;
-        document.getElementById('modalPosicaoDisplay').innerHTML = `📌 Posição: ${posicao}º`;
-        document.getElementById('modalTimerDisplay').innerHTML = `⏱️ Tempo: ${tempoTexto}`;
-        document.getElementById('senhaModal').style.display = 'flex';
-        
-        atualizarStatusFila();
-        
-        // Enviar mensagem para o DONO
-        let msgDono = `🆕 *NOVO CLIENTE NA FILA!*\n\n👤 Nome: ${nome}\n📞 WhatsApp: ${whats}\n✂️ Serviço: ${servicoSelecionado === 'corte' ? 'Corte' : (servicoSelecionado === 'barba' ? 'Barba' : 'Combo')}\n💰 Valor: R$ ${clienteLogado.valor.toFixed(2)}\n💳 Pagamento: ${pagamentoEmoji[pagamentoSelecionado]}\n🎫 SENHA: ${senhaFormatada}\n📌 POSIÇÃO: ${posicao}º\n⏱️ TEMPO ESTIMADO: ${tempoTexto}\n\n✅ Aguardando atendimento.`;
-        
-        enviarWhatsApp(DONO_WHATSAPP, msgDono);
-        
-        alert(`✅ VOCÊ ENTROU NA FILA!\n\n🎫 SENHA: ${senhaFormatada}\n📌 POSIÇÃO: ${posicao}º\n⏱️ TEMPO ESTIMADO: ${tempoTexto}\n\n📱 Você receberá uma mensagem quando chegar sua vez!`);
+        localStorage.setItem('historicoAtendidos', JSON.stringify(historicoAtendidos));
+        localStorage.setItem('senhaAtualAtendimento', senhaAtualAtendimento);
+        localStorage.setItem('ultimaSenha', ultimaSenha);
     }
 
-    function confirmarFila() {
-        if(!clienteLogado) {
-            alert("⚠️ Entre na fila primeiro clicando em 'ENTRAR NA FILA'!");
+    function atualizarTela() {
+        // Atualizar stats
+        document.getElementById('totalFila').innerHTML = filaClientes.filter(c => c.status === 'aguardando').length;
+        document.getElementById('totalAtendidos').innerHTML = historicoAtendidos.length;
+        
+        // Atualizar senha atual
+        if(senhaAtualAtendimento > 0) {
+            document.getElementById('senhaAtual').innerHTML = String(senhaAtualAtendimento).padStart(3, '0');
+            const clienteAtual = historicoAtendidos[historicoAtendidos.length - 1];
+            if(clienteAtual) {
+                document.getElementById('clienteAtualNome').innerHTML = clienteAtual.nome;
+                document.getElementById('clienteAtualInfo').innerHTML = `${clienteAtual.servicoNome || clienteAtual.servico} | ${clienteAtual.pagamentoTexto || clienteAtual.pagamento}`;
+            }
+        } else {
+            document.getElementById('senhaAtual').innerHTML = "---";
+            document.getElementById('clienteAtualNome').innerHTML = "Aguardando próximo";
+            document.getElementById('clienteAtualInfo').innerHTML = "";
+        }
+        
+        // Atualizar lista da fila
+        const clientesAguardando = filaClientes.filter(c => c.status === 'aguardando').sort((a,b) => a.senha - b.senha);
+        
+        if(clientesAguardando.length === 0) {
+            document.getElementById('filaList').innerHTML = '<div style="text-align:center; padding:40px; color:#aaa;">🎉 Nenhum cliente na fila!</div>';
+        } else {
+            let html = '';
+            clientesAguardando.forEach((c, idx) => {
+                const posicao = idx + 1;
+                const tempoEspera = (posicao - 1) * tempoAtendimento;
+                const tempoTexto = tempoEspera >= 60 ? `${Math.floor(tempoEspera/60)}h ${tempoEspera%60}min` : `${tempoEspera}min`;
+                html += `
+                    <div class="fila-item">
+                        <div class="fila-senha">${String(c.senha).padStart(3, '0')}</div>
+                        <div class="fila-info">
+                            <div class="fila-nome">${c.nome}</div>
+                            <div class="fila-servico">✂️ ${c.servicoNome || c.servico} | 💳 ${c.pagamentoTexto || c.pagamento}</div>
+                            <div class="fila-tempo">⏱️ Tempo espera: ~${tempoTexto}</div>
+                        </div>
+                        <button class="btn-remover" onclick="removerClienteFila(${c.senha})">🗑️</button>
+                    </div>
+                `;
+            });
+            document.getElementById('filaList').innerHTML = html;
+        }
+        
+        // Atualizar histórico
+        if(historicoAtendidos.length === 0) {
+            document.getElementById('historicoList').innerHTML = '<div style="text-align:center; padding:20px; color:#aaa;">Nenhum atendimento ainda</div>';
+        } else {
+            let html = '';
+            [...historicoAtendidos].reverse().forEach(h => {
+                html += `
+                    <div class="historico-item">
+                        <span>🎫 ${String(h.senha).padStart(3, '0')} - ${h.nome}</span>
+                        <span>✂️ ${h.servicoNome || h.servico}</span>
+                        <span style="color:#e6b422;">R$ ${h.valor.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+            document.getElementById('historicoList').innerHTML = html;
+        }
+    }
+
+    function chamarProximo() {
+        const clientesAguardando = filaClientes.filter(c => c.status === 'aguardando').sort((a,b) => a.senha - b.senha);
+        
+        if(clientesAguardando.length === 0) {
+            alert("🎉 Não há clientes na fila de espera!");
             return;
         }
         
-        // Enviar mensagem para o cliente
-        const senhaFormatada = String(clienteLogado.senha).padStart(3, '0');
-        let msgCliente = `✅ *VOCÊ ESTÁ NA FILA DE ATENDIMENTO!*\n\n🏆 *Barbearia Camisa 12 Sports*\n\n👤 Nome: ${clienteLogado.nome}\n✂️ Serviço: ${clienteLogado.servico === 'corte' ? 'Corte' : (clienteLogado.servico === 'barba' ? 'Barba' : 'Combo')}\n💰 Valor: R$ ${clienteLogado.valor.toFixed(2)}\n💳 Pagamento: ${pagamentoEmoji[pagamentoSelecionado]}\n\n🎫 *SUA SENHA: ${senhaFormatada}*\n\n📍 Aguardamos você!\n\n👉 *IMPORTANTE:* Guarde sua senha. Você será avisado no WhatsApp quando chegar sua vez!\n\n`;
+        const proximo = clientesAguardando[0];
         
-        if(pagamentoSelecionado === 'pix') {
-            if(abaAtiva === 'chave') {
-                msgCliente += `🟣 *PAGAMENTO PIX*\nChave: ${CHAVE_PIX}\nValor: R$ ${clienteLogado.valor.toFixed(2)}`;
-            } else {
-                msgCliente += `📱 *PAGAMENTO PIX (QR CODE)*\nValor: R$ ${clienteLogado.valor.toFixed(2)}`;
-            }
+        // Remover da fila
+        filaClientes = filaClientes.filter(c => c.senha !== proximo.senha);
+        
+        // Adicionar ao histórico
+        const finalizado = { ...proximo, status: 'finalizado', atendidoEm: new Date().toISOString() };
+        historicoAtendidos.push(finalizado);
+        
+        // Atualizar senha atual
+        senhaAtualAtendimento = proximo.senha;
+        
+        salvarDados();
+        atualizarTela();
+        
+        // Enviar WhatsApp para o cliente
+        const senhaFormatada = String(proximo.senha).padStart(3, '0');
+        let msgCliente = `🔔 *É SUA VEZ!*\n\n🏆 *Barbearia Camisa 12 Sports*\n\n🎫 *SENHA: ${senhaFormatada}*\n\n👤 Cliente: ${proximo.nome}\n✂️ Serviço: ${proximo.servicoNome || proximo.servico}\n💰 Valor: R$ ${proximo.valor.toFixed(2)}\n💳 Pagamento: ${proximo.pagamentoTexto || proximo.pagamento}\n\n📍 *DIRIJA-SE PARA A BARBEARIA!*\n\nAguardamos você! 🧔🏼‍♂️`;
+        
+        let numeroCliente = proximo.whats.replace(/\D/g, '');
+        if (!numeroCliente.startsWith('55')) numeroCliente = '55' + numeroCliente;
+        window.open(`https://wa.me/${numeroCliente}?text=${encodeURIComponent(msgCliente)}`, '_blank');
+        
+        alert(`✅ Cliente ${proximo.nome} (Senha ${senhaFormatada}) foi chamado!\n📱 Mensagem enviada via WhatsApp.`);
+    }
+
+    function removerClienteFila(senha) {
+        if(confirm("Remover este cliente da fila?")) {
+            filaClientes = filaClientes.filter(c => c.senha !== senha);
+            salvarDados();
+            atualizarTela();
         }
+    }
+
+    function limparHistorico() {
+        if(confirm("Limpar todo o histórico de atendimentos?")) {
+            historicoAtendidos = [];
+            senhaAtualAtendimento = 0;
+            salvarDados();
+            atualizarTela();
+        }
+    }
+
+    function salvarConfiguracoes() {
+        const novoDono = document.getElementById('donoWhats').value.trim();
+        const novoTempo = parseInt(document.getElementById('tempoAtendimento').value);
         
-        enviarWhatsApp(clienteLogado.whats, msgCliente);
-        alert(`✅ Confirmação enviada para ${clienteLogado.nome}!\n\n📱 Mensagem enviada no WhatsApp.`);
+        if(novoDono) { donoWhats = novoDono; localStorage.setItem('donoWhats', donoWhats); }
+        if(novoTempo >= 5 && novoTempo <= 60) { tempoAtendimento = novoTempo; localStorage.setItem('tempoAtendimento', tempoAtendimento); }
+        
+        alert("✅ Configurações salvas com sucesso!");
     }
 
-    function copiarChavePix() {
-        navigator.clipboard.writeText(CHAVE_PIX);
-        alert("✅ Chave PIX copiada: " + CHAVE_PIX);
-    }
-
-    function atualizarValorPix() {
-        let valor = servicoSelecionado === 'corte' ? precos.corte : (servicoSelecionado === 'barba' ? precos.barba : precos.combo);
-        document.getElementById('pixValorDisplay').innerHTML = `💰 Valor: R$ ${valor.toFixed(2)}`;
-        document.getElementById('pixValorDisplay2').innerHTML = `💰 Valor: R$ ${valor.toFixed(2)}`;
-        document.getElementById('totalValor').innerHTML = `R$ ${valor.toFixed(2)}`;
-        document.getElementById('servicoPriceDisplay').innerHTML = `💰 Valor: R$ ${(servicoSelecionado === 'corte' ? precos.corte : precos.barba).toFixed(2)}`;
-    }
-
-    function gerarQRCodeApp() {
-        const container = document.getElementById('qrCodeAppContainer');
-        if(container) { container.innerHTML = ''; new QRCode(container, { text: LINK_APP, width: 80, height: 80 }); }
-        const modalContainer = document.getElementById('qrAppModalContainer');
-        if(modalContainer) { modalContainer.innerHTML = ''; new QRCode(modalContainer, { text: LINK_APP, width: 250, height: 250 }); }
-    }
-
-    function toggleInfoCartao() { document.getElementById('infoCartao').style.display = pagamentoSelecionado === 'cartao' ? 'block' : 'none'; }
-
-    function initPaymentOptions() {
-        document.querySelectorAll('.payment-card').forEach(card => { card.onclick = () => { pagamentoSelecionado = card.dataset.pagamento; document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('selected')); card.classList.add('selected'); toggleInfoCartao(); }; });
-        document.querySelector('.payment-card').classList.add('selected'); toggleInfoCartao();
-    }
-
-    function abrirModalCombo() { document.getElementById('comboModal').style.display = 'flex'; }
-    function fecharModalCombo() { document.getElementById('comboModal').style.display = 'none'; }
-    function abrirModalApp() { document.getElementById('qrAppModal').style.display = 'flex'; }
-    function fecharModalApp() { document.getElementById('qrAppModal').style.display = 'none'; }
-    function fecharSenhaModal() { document.getElementById('senhaModal').style.display = 'none'; }
-    
-    function enviarWhatsApp(numero, mensagem) { 
-        let numeroLimpo = numero.replace(/\D/g, ''); 
-        if (!numeroLimpo.startsWith('55')) { numeroLimpo = '55' + numeroLimpo; } 
-        window.open(`https://wa.me/${numeroLimpo}?text=${encodeURIComponent(mensagem)}`, '_blank'); 
+    function carregarConfiguracoes() {
+        document.getElementById('donoWhats').value = donoWhats;
+        document.getElementById('tempoAtendimento').value = tempoAtendimento;
     }
 
     // Eventos
-    document.getElementById('tabChave').onclick = () => alternarAba('chave');
-    document.getElementById('tabQrCode').onclick = () => alternarAba('qrCode');
-    document.getElementById('entrarFilaBtn').onclick = entrarNaFila;
-    document.getElementById('btnConfirmarFila').onclick = confirmarFila;
-    document.getElementById('closeSenhaModal').onclick = fecharSenhaModal;
+    document.getElementById('btnProximo').onclick = chamarProximo;
+    document.getElementById('saveConfig').onclick = salvarConfiguracoes;
+    document.getElementById('limparHistorico').onclick = limparHistorico;
     
-    document.getElementById('servicoSelect').onchange = (e) => { servicoSelecionado = e.target.value; atualizarValorPix(); };
-    document.getElementById('comboCard').onclick = () => { servicoSelecionado = 'combo'; document.getElementById('servicoSelect').value = 'corte'; abrirModalCombo(); atualizarValorPix(); };
-    document.getElementById('comboModal').onclick = (e) => { if(e.target === document.getElementById('comboModal')) fecharModalCombo(); };
-    document.getElementById('closeComboModalBtn').onclick = fecharModalCombo;
-    document.getElementById('copyPixBtn').onclick = copiarChavePix;
-    document.getElementById('qrCodeAppBtn').onclick = abrirModalApp;
-    document.getElementById('closeQrAppModal').onclick = fecharModalApp;
-
-    // Atualizar fila automaticamente a cada 10 segundos
+    // Atualização automática a cada 3 segundos
     setInterval(() => {
         const saved = localStorage.getItem('filaClientes');
         if(saved) filaClientes = JSON.parse(saved);
-        atualizarStatusFila();
-    }, 10000);
-
-    atualizarValorPix(); initPaymentOptions(); carregarImagemQRCode(); setTimeout(gerarQRCodeApp, 100);
+        const savedHistorico = localStorage.getItem('historicoAtendidos');
+        if(savedHistorico) historicoAtendidos = JSON.parse(savedHistorico);
+        const savedSenha = localStorage.getItem('senhaAtualAtendimento');
+        if(savedSenha) senhaAtualAtendimento = parseInt(savedSenha);
+        const savedUltimaSenha = localStorage.getItem('ultimaSenha');
+        if(savedUltimaSenha) ultimaSenha = parseInt(savedUltimaSenha);
+        atualizarTela();
+    }, 3000);
+    
+    carregarConfiguracoes();
+    atualizarTela();
 </script>
 </body>
 </html>
