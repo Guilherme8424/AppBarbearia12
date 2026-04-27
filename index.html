@@ -103,7 +103,6 @@
             margin-top: 3px;
         }
 
-        /* Banner do App - QR Code para baixar */
         .app-banner {
             background: linear-gradient(135deg, #2d2d44, #1a1a2e);
             border-radius: 25px;
@@ -159,7 +158,6 @@
             font-size: 0.7rem;
         }
 
-        /* Modal do QR Code App */
         .qr-modal {
             display: none;
             position: fixed;
@@ -196,7 +194,6 @@
             cursor: pointer;
         }
 
-        /* Modal do Combo */
         .combo-modal {
             display: none;
             position: fixed;
@@ -338,7 +335,6 @@
             outline: none;
         }
 
-        /* Seção PIX com QR Code */
         .config-pix {
             background: #fff8e7;
             padding: 15px;
@@ -602,10 +598,10 @@
     <div class="service-select">
         <label>✂️ Selecione o serviço:</label>
         <select id="servicoSelect" class="dropdown-select">
-            <option value="corte">✂️ Corte Masculino - R$ 35</option>
-            <option value="barba">🧔 Barba Premium - R$ 25</option>
+            <option value="corte">✂️ Corte Masculino - R$ 40</option>
+            <option value="barba">🧔 Barba Premium - R$ 35</option>
         </select>
-        <div class="service-price-display" id="servicoPriceDisplay">💰 Valor: R$ 35,00</div>
+        <div class="service-price-display" id="servicoPriceDisplay">💰 Valor: R$ 40,00</div>
     </div>
 
     <!-- Combo -->
@@ -614,14 +610,14 @@
             <strong>🏆 COMBO CAMISA 12</strong>
             <div class="combo-items-preview" style="font-size:0.7rem; color:#888; margin-top:4px;">✂️ Corte + 🧔 Barba + 💈 Acabamento</div>
         </div>
-        <div class="service-price" id="precoCombo">R$ 55</div>
+        <div class="service-price" id="precoCombo">R$ 70</div>
     </div>
 
     <!-- Formulário -->
     <div class="form-card">
         <div class="total-area">
             <span>💰 VALOR TOTAL</span>
-            <div class="total-value" id="totalValor">R$ 35,00</div>
+            <div class="total-value" id="totalValor">R$ 40,00</div>
         </div>
 
         <label>👤 Seu nome</label>
@@ -650,7 +646,7 @@
         <!-- Configuração PIX com QR Code -->
         <div class="config-pix">
             <label>🔑 Chave PIX (configurável):</label>
-            <input type="text" id="chavePixInput" placeholder="Digite sua chave PIX (email, celular, CPF)">
+            <input type="text" id="chavePixInput" placeholder="Digite sua chave PIX" value="10189438703">
             
             <div class="pix-qr-section">
                 <label>📱 QR Code PIX para pagamento:</label>
@@ -706,14 +702,14 @@
     <div class="combo-modal-content">
         <h3>🏆 COMBO CAMISA 12</h3>
         <ul class="combo-items">
-            <li><span>✂️ Corte Esportivo</span><span>R$ 35,00</span></li>
-            <li><span>🧔 Barba Premium</span><span>R$ 25,00</span></li>
+            <li><span>✂️ Corte Esportivo</span><span>R$ 40,00</span></li>
+            <li><span>🧔 Barba Premium</span><span>R$ 35,00</span></li>
             <li><span>💈 Acabamento Especial</span><span>Incluso</span></li>
             <li><span>💆 Toalha quente</span><span>Incluso</span></li>
             <li><span>🧴 Produtos de qualidade</span><span>Incluso</span></li>
         </ul>
         <div class="combo-total">
-            <span>💰 Total: R$ 55,00</span>
+            <span>💰 Total: R$ 70,00</span>
             <p style="font-size:0.7rem; margin-top:5px;">(Corte + Barba com desconto especial)</p>
         </div>
         <button class="modal-close" id="closeComboModalBtn">Fechar</button>
@@ -733,12 +729,12 @@
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
     // ========== CONFIGURAÇÕES ==========
-    let CHAVE_PIX = "seuemail@gmail.com";
+    let CHAVE_PIX = "10189438703";
     const DONO_WHATSAPP = "5521989533627";
-    const LINK_APP = "https://guilherme8424.github.io/app-barbearia/";
+    const LINK_APP = "https://guilherme8424.github.io/AppBarbearia12/";
     // ===================================
 
-    let precos = { corte: 35, barba: 25, combo: 55 };
+    let precos = { corte: 40, barba: 35, combo: 70 };
     let servicoSelecionado = "corte";
     let dataSelecionada = null;
     let horarioSelecionado = null;
@@ -754,7 +750,6 @@
         cartao: "💳 Cartão"
     };
 
-    // Função para gerar QR Code PIX com valor dinâmico
     function gerarPixQRCode(valor) {
         const valorFormatado = valor.toFixed(2).replace('.', ',');
         document.getElementById('pixValorDisplay').innerHTML = `💰 Valor do PIX: R$ ${valorFormatado}`;
@@ -819,7 +814,6 @@
         gerarPixQRCode(valor);
     }
 
-    // Gerar QR Code do App
     function gerarQRCodeApp() {
         const container = document.getElementById('qrCodeAppContainer');
         if(container) {
@@ -991,7 +985,6 @@
         window.open(`https://wa.me/${numeroLimpo}?text=${textoCodificado}`, '_blank');
     }
 
-    // Eventos
     document.getElementById('servicoSelect').onchange = (e) => {
         servicoSelecionado = e.target.value;
         atualizarTotal();
@@ -1036,7 +1029,6 @@
         atualizarChavePix();
     });
 
-    // Botão de confirmar agendamento - ENVIA PARA A BARBEARIA
     document.getElementById('btnAgendar').onclick = () => {
         const nome = document.getElementById('nome').value.trim();
         const whats = document.getElementById('whats').value.trim();
@@ -1067,7 +1059,6 @@
         
         atualizarChavePix();
         
-        // Mensagem para o DONO (barbearia)
         let msgDono = `🆕 *NOVO PEDIDO - Barbearia Camisa 12 Sports*\n\n` +
             `👤 Cliente: ${nome}\n📞 WhatsApp: ${whats}\n✂️ Serviço: ${servicoNome}\n` +
             `💰 Valor: R$ ${valor.toFixed(2)}\n💳 Pagamento: ${pagamentoTexto}\n` +
@@ -1077,7 +1068,6 @@
             msgDono += `\n💰 PIX: ${CHAVE_PIX}`;
         }
         
-        // Mensagem para o CLIENTE
         let msgCliente = `✅ *AGENDAMENTO CONFIRMADO!*\n\n🏆 *Barbearia Camisa 12 Sports*\n\n` +
             `👤 Nome: ${nome}\n✂️ Serviço: ${servicoNome}\n💰 Valor: R$ ${valor.toFixed(2)}\n` +
             `💳 Pagamento: ${pagamentoTexto}\n📅 Data: ${dataFormatada}\n⏰ Horário: ${horarioSelecionado}\n\n📍 Aguardamos você!`;
@@ -1088,7 +1078,6 @@
             msgCliente += `\n\n💳 *Pagamento com Cartão*\nA máquina estará disponível no local.`;
         }
         
-        // Salvar pedido
         const pedido = {
             id: Date.now(),
             nome, whats, servico: servicoSelecionado,
@@ -1101,13 +1090,11 @@
         pedidos.unshift(pedido);
         localStorage.setItem('barbearia_pedidos', JSON.stringify(pedidos));
         
-        // Enviar WhatsApp
         enviarWhatsApp(DONO_WHATSAPP, msgDono);
         enviarWhatsApp(whats, msgCliente);
         
         alert(`✅ AGENDAMENTO REALIZADO!\n\n${servicoNome}\n📅 ${dataFormatada} às ${horarioSelecionado}\n💰 R$ ${valor.toFixed(2)}\n\n📱 Você receberá uma mensagem de confirmação no WhatsApp!`);
         
-        // Limpar campos
         document.getElementById('nome').value = '';
         document.getElementById('whats').value = '';
         document.getElementById('obs').value = '';
@@ -1119,7 +1106,6 @@
         renderizarHorarios();
     };
 
-    // Inicialização
     carregarPrecos();
     gerarCalendario();
     renderizarHorarios();
