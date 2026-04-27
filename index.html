@@ -42,9 +42,98 @@
         .form-card { background: white; border-radius: 25px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         label { display: block; margin-top: 12px; margin-bottom: 5px; font-weight: 600; color: #333; }
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 15px; font-size: 1rem; }
-        .config-pix { background: #fff8e7; padding: 15px; border-radius: 15px; margin: 10px 0; border: 1px solid #e6b422; text-align: center; }
-        .config-pix label { font-size: 0.85rem; font-weight: bold; }
-        .pix-qr-code { display: flex; justify-content: center; margin: 10px 0; }
+        
+        /* PIX - ESTILO */
+        .pix-container {
+            background: linear-gradient(135deg, #6c2bd4, #8b5cf6);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        .pix-title {
+            color: white;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .pix-key-box {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .pix-key-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+            word-break: break-all;
+            flex: 1;
+        }
+        .btn-copy-pix {
+            background: #6c2bd4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .pix-value {
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 10px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* SENHA - ALERTA DO CLIENTE */
+        .senha-container {
+            background: linear-gradient(135deg, #e6b422, #ffce4a);
+            border-radius: 20px;
+            padding: 15px;
+            margin: 10px 0;
+            text-align: center;
+            cursor: pointer;
+            animation: pulse-senha 2s infinite;
+        }
+        @keyframes pulse-senha {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(230,180,34,0.4); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(230,180,34,0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(230,180,34,0); }
+        }
+        .senha-title {
+            color: #1a1a2e;
+            font-weight: bold;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .senha-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1a1a2e;
+            letter-spacing: 4px;
+        }
+        .senha-btn {
+            background: #1a1a2e;
+            color: #e6b422;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 25px;
+            margin-top: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
         .info-cartao { background: #e8f4f8; padding: 10px; border-radius: 12px; font-size: 0.7rem; text-align: center; margin-top: 5px; display: none; }
         .payment-options { display: flex; gap: 12px; margin-top: 5px; flex-wrap: wrap; }
         .payment-card { flex: 1; background: #f8f9fa; border: 2px solid #e0e0e0; border-radius: 15px; padding: 12px; text-align: center; cursor: pointer; }
@@ -64,10 +153,42 @@
         .total-value { font-size: 1.8rem; font-weight: bold; color: #e6b422; }
         .btn-agendar { background: #e6b422; width: 100%; padding: 15px; border: none; border-radius: 30px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 15px; }
         footer { text-align: center; padding: 20px; color: #888; font-size: 0.7rem; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-content { background: white; border-radius: 30px; padding: 25px; max-width: 90%; text-align: center; }
-        .modal-content h3 { color: #e6b422; margin-bottom: 15px; }
-        .modal-content .pix-key { background: #f0f0f0; padding: 12px; border-radius: 12px; margin: 15px 0; word-break: break-all; }
+        
+        /* Modal da Senha */
+        .senha-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+        .senha-modal-content {
+            background: linear-gradient(135deg, #fff8e7, #fff4dc);
+            border-radius: 40px;
+            padding: 30px;
+            text-align: center;
+            max-width: 85%;
+            border: 2px solid #e6b422;
+        }
+        .senha-modal-content h2 {
+            color: #e6b422;
+            margin-bottom: 15px;
+        }
+        .senha-modal-big {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #1a1a2e;
+            letter-spacing: 10px;
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 15px 0;
+        }
         @media (max-width: 480px) { .app-banner { flex-direction: column; text-align: center; } }
     </style>
 </head>
@@ -116,15 +237,25 @@
             <div class="payment-card" data-pagamento="cartao"><div class="payment-icon">💳</div><div class="payment-name">Cartão</div></div>
         </div>
 
-        <!-- PIX - Configurado para Nubank -->
-        <div class="config-pix">
-            <label>🔑 PIX - Banco Nubank</label>
-            <div style="background:#6c2bd4; color:white; padding:8px; border-radius:12px; margin:5px 0; font-size:0.8rem;">
-                🟣 Chave: 10189438703
+        <!-- SENHA DO CLIENTE - ALERTA -->
+        <div class="senha-container" id="senhaContainer">
+            <div class="senha-title">
+                🔔 SUA SENHA DE ATENDIMENTO 🔔
             </div>
-            <div class="pix-qr-code" id="pixQrCodeContainer"></div>
-            <small>Escaneie o QR Code com seu banco para pagar</small>
-            <small id="pixValorDisplay" style="display:block; margin-top:5px; font-weight:bold; color:#e6b422;"></small>
+            <div class="senha-value" id="senhaDisplay">---</div>
+            <div style="font-size:0.7rem;">Clique para gerar sua senha</div>
+            <button class="senha-btn" id="gerarSenhaBtn">🎫 GERAR SENHA</button>
+        </div>
+
+        <!-- PIX -->
+        <div class="pix-container" id="pixContainer">
+            <div class="pix-title">🟣 PIX - Banco Nubank</div>
+            <div class="pix-key-box">
+                <span class="pix-key-value" id="pixKeyDisplay">10189438703</span>
+                <button class="btn-copy-pix" id="copyPixBtn">📋 Copiar</button>
+            </div>
+            <div class="pix-value" id="pixValorDisplay">💰 Valor: R$ 40,00</div>
+            <small style="color:rgba(255,255,255,0.8);">Cole a chave no seu banco</small>
         </div>
 
         <div class="info-cartao" id="infoCartao">💳 Pagamento com Cartão: A máquina estará disponível no local.</div>
@@ -145,8 +276,14 @@
     <footer>Barbearia Camisa 12 Sports • Agendamento via WhatsApp</footer>
 </div>
 
-<div id="pixModal" class="modal">
-    <div class="modal-content"><h3>💳 Pagamento via PIX</h3><p>Use a chave abaixo para pagar:</p><div class="pix-key" id="pixKeyDisplay"></div><button id="copyPixBtn" style="background:#e6b422; border:none; padding:8px 16px; border-radius:20px;">📋 Copiar Chave PIX</button><br><button class="modal-close" id="closePixModal">✅ Fechar</button></div>
+<!-- Modal da Senha Ampliado -->
+<div id="senhaModal" class="senha-modal">
+    <div class="senha-modal-content">
+        <h2>🎫 SUA SENHA DE ATENDIMENTO</h2>
+        <div class="senha-modal-big" id="senhaModalDisplay">---</div>
+        <p>Apresente esta senha na barbearia</p>
+        <button class="modal-close" id="closeSenhaModal">Fechar</button>
+    </div>
 </div>
 
 <div id="comboModal" class="combo-modal"><div class="combo-modal-content"><h3>🏆 COMBO CAMISA 12</h3><ul class="combo-items"><li><span>✂️ Corte Esportivo</span><span>R$ 40,00</span></li><li><span>🧔 Barba Premium</span><span>R$ 35,00</span></li><li><span>💈 Acabamento Especial</span><span>Incluso</span></li><li><span>💆 Toalha quente</span><span>Incluso</span></li><li><span>🧴 Produtos de qualidade</span><span>Incluso</span></li></ul><div class="combo-total"><span>💰 Total: R$ 70,00</span></div><button class="modal-close" id="closeComboModalBtn">Fechar</button></div></div>
@@ -155,11 +292,13 @@
 
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
-    // ========== CONFIGURAÇÕES PIX ==========
-    // CHAVE PIX DO BANCO NUBANK
+    // ========== CONFIGURAÇÕES ==========
     const CHAVE_PIX = "10189438703";
     const DONO_WHATSAPP = "5521989533627";
     const LINK_APP = "https://guilherme8424.github.io/AppBarbearia12/";
+    
+    // Variável da senha
+    let senhaAtual = "";
     // ===================================
 
     let precos = { corte: 40, barba: 35, combo: 70 };
@@ -173,23 +312,40 @@
     const horarios = ["09:00","09:40","10:20","11:00","11:40","13:00","13:40","14:20","15:00","15:40","16:20","17:00","17:40","18:20","19:00"];
     const pagamentoEmoji = { pix: "💳 PIX", dinheiro: "💰 Dinheiro", cartao: "💳 Cartão" };
 
-    // Gerar QR Code PIX com a chave do Nubank
-    function gerarPixQRCode(valor) {
-        const valorFormatado = valor.toFixed(2);
-        document.getElementById('pixValorDisplay').innerHTML = `💰 Valor: R$ ${valorFormatado}`;
-        
-        if(document.getElementById('pixQrCodeContainer') && CHAVE_PIX) {
-            document.getElementById('pixQrCodeContainer').innerHTML = '';
-            // QR Code com a chave PIX
-            new QRCode(document.getElementById('pixQrCodeContainer'), {
-                text: CHAVE_PIX,
-                width: 150,
-                height: 150,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
+    // Função para gerar senha aleatória
+    function gerarSenha() {
+        const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const numeros = "0123456789";
+        let senha = "";
+        // 2 letras + 3 números
+        for(let i = 0; i < 2; i++) {
+            senha += letras.charAt(Math.floor(Math.random() * letras.length));
         }
+        for(let i = 0; i < 3; i++) {
+            senha += numeros.charAt(Math.floor(Math.random() * numeros.length));
+        }
+        return senha;
+    }
+
+    function exibirSenhaModal() {
+        if(senhaAtual) {
+            document.getElementById('senhaModalDisplay').innerHTML = senhaAtual;
+            document.getElementById('senhaModal').style.display = 'flex';
+        } else {
+            alert("⚠️ Clique em 'GERAR SENHA' primeiro!");
+        }
+    }
+
+    function copiarChavePix() {
+        navigator.clipboard.writeText(CHAVE_PIX);
+        alert("✅ Chave PIX copiada: " + CHAVE_PIX);
+    }
+
+    function atualizarValorPix() {
+        let valor = servicoSelecionado === 'corte' ? precos.corte : (servicoSelecionado === 'barba' ? precos.barba : precos.combo);
+        document.getElementById('pixValorDisplay').innerHTML = `💰 Valor: R$ ${valor.toFixed(2)}`;
+        document.getElementById('totalValor').innerHTML = `R$ ${valor.toFixed(2)}`;
+        document.getElementById('servicoPriceDisplay').innerHTML = `💰 Valor: R$ ${(servicoSelecionado === 'corte' ? precos.corte : precos.barba).toFixed(2)}`;
     }
 
     function gerarQRCodeApp() {
@@ -199,11 +355,10 @@
         if(modalContainer) { modalContainer.innerHTML = ''; new QRCode(modalContainer, { text: LINK_APP, width: 250, height: 250 }); }
     }
 
-    function atualizarPixQRCode() { let valor = servicoSelecionado === 'corte' ? precos.corte : (servicoSelecionado === 'barba' ? precos.barba : precos.combo); gerarPixQRCode(valor); }
     function toggleInfoCartao() { document.getElementById('infoCartao').style.display = pagamentoSelecionado === 'cartao' ? 'block' : 'none'; }
-    function atualizarTotal() { let valor = servicoSelecionado === 'corte' ? precos.corte : (servicoSelecionado === 'barba' ? precos.barba : precos.combo); document.getElementById('totalValor').innerHTML = `R$ ${valor.toFixed(2)}`; document.getElementById('servicoPriceDisplay').innerHTML = `💰 Valor: R$ ${(servicoSelecionado === 'corte' ? precos.corte : precos.barba).toFixed(2)}`; atualizarPixQRCode(); }
+    function atualizarTotal() { atualizarValorPix(); }
 
-    function carregarPrecos() { document.getElementById('precoCombo').innerHTML = `R$ ${precos.combo}`; atualizarTotal(); }
+    function carregarPrecos() { document.getElementById('precoCombo').innerHTML = `R$ ${precos.combo}`; atualizarValorPix(); }
     
     function gerarCalendario() {
         const meses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
@@ -238,12 +393,11 @@
         document.querySelector('.payment-card').classList.add('selected'); toggleInfoCartao();
     }
 
-    function abrirModalPix() { let valor = servicoSelecionado === 'corte' ? precos.corte : (servicoSelecionado === 'barba' ? precos.barba : precos.combo); document.getElementById('pixKeyDisplay').innerHTML = `Chave PIX: ${CHAVE_PIX}<br>Valor: R$ ${valor.toFixed(2)}`; document.getElementById('pixModal').style.display = 'flex'; }
-    function fecharModalPix() { document.getElementById('pixModal').style.display = 'none'; }
     function abrirModalCombo() { document.getElementById('comboModal').style.display = 'flex'; }
     function fecharModalCombo() { document.getElementById('comboModal').style.display = 'none'; }
     function abrirModalApp() { document.getElementById('qrAppModal').style.display = 'flex'; }
     function fecharModalApp() { document.getElementById('qrAppModal').style.display = 'none'; }
+    function fecharSenhaModal() { document.getElementById('senhaModal').style.display = 'none'; }
     
     function enviarWhatsApp(numero, mensagem) { 
         let numeroLimpo = numero.replace(/\D/g, ''); 
@@ -251,14 +405,32 @@
         window.open(`https://wa.me/${numeroLimpo}?text=${encodeURIComponent(mensagem)}`, '_blank'); 
     }
 
+    // Evento de gerar senha
+    document.getElementById('gerarSenhaBtn').onclick = () => {
+        senhaAtual = gerarSenha();
+        document.getElementById('senhaDisplay').innerHTML = senhaAtual;
+        document.getElementById('senhaContainer').style.background = "linear-gradient(135deg, #28a745, #20c997)";
+        alert(`✅ Senha gerada: ${senhaAtual}\n\nApresente esta senha na barbearia!`);
+    };
+    
+    document.getElementById('senhaContainer').onclick = () => {
+        if(senhaAtual) {
+            exibirSenhaModal();
+        } else {
+            alert("⚠️ Clique em 'GERAR SENHA' primeiro!");
+        }
+    };
+
+    document.getElementById('closeSenhaModal').onclick = fecharSenhaModal;
+
+    // Eventos
     document.getElementById('servicoSelect').onchange = (e) => { servicoSelecionado = e.target.value; atualizarTotal(); };
     document.getElementById('prevMonth').onclick = () => { if(mesAtual === 0) { mesAtual = 11; anoAtual--; } else mesAtual--; gerarCalendario(); };
     document.getElementById('nextMonth').onclick = () => { if(mesAtual === 11) { mesAtual = 0; anoAtual++; } else mesAtual++; gerarCalendario(); };
     document.getElementById('comboCard').onclick = () => { servicoSelecionado = 'combo'; document.getElementById('servicoSelect').value = 'corte'; abrirModalCombo(); atualizarTotal(); };
     document.getElementById('comboModal').onclick = (e) => { if(e.target === document.getElementById('comboModal')) fecharModalCombo(); };
     document.getElementById('closeComboModalBtn').onclick = fecharModalCombo;
-    document.getElementById('copyPixBtn').onclick = () => { navigator.clipboard.writeText(CHAVE_PIX); alert("✅ Chave PIX copiada!"); };
-    document.getElementById('closePixModal').onclick = fecharModalPix;
+    document.getElementById('copyPixBtn').onclick = copiarChavePix;
     document.getElementById('qrCodeAppBtn').onclick = abrirModalApp;
     document.getElementById('closeQrAppModal').onclick = fecharModalApp;
 
@@ -266,35 +438,63 @@
         const nome = document.getElementById('nome').value.trim();
         const whats = document.getElementById('whats').value.trim();
         const obs = document.getElementById('obs').value;
+        
         if(!nome || !whats) { alert("⚠️ Preencha nome e WhatsApp!"); return; }
         if(!dataSelecionada) { alert("📅 Selecione uma data!"); return; }
         if(!horarioSelecionado) { alert("⏰ Selecione um horário!"); return; }
+        if(!senhaAtual) { alert("🔔 Clique em 'GERAR SENHA' para obter sua senha de atendimento!"); return; }
         
         let servicoNome = servicoSelecionado === 'corte' ? '✂️ Corte' : (servicoSelecionado === 'barba' ? '🧔 Barba' : '🏆 Combo Camisa 12');
         let valor = servicoSelecionado === 'corte' ? precos.corte : (servicoSelecionado === 'barba' ? precos.barba : precos.combo);
         const dataFormatada = dataSelecionada.split('-').reverse().join('/');
         const pagamentoTexto = pagamentoEmoji[pagamentoSelecionado];
         
-        if(pagamentoSelecionado === 'pix') { abrirModalPix(); }
-        
-        let msgDono = `🆕 *NOVO PEDIDO - Barbearia Camisa 12 Sports*\n\n👤 Cliente: ${nome}\n📞 WhatsApp: ${whats}\n✂️ Serviço: ${servicoNome}\n💰 Valor: R$ ${valor.toFixed(2)}\n💳 Pagamento: ${pagamentoTexto}\n📅 Data: ${dataFormatada}\n⏰ Horário: ${horarioSelecionado}\n💬 Obs: ${obs || 'Nenhuma'}\n\n✅ Aguardando confirmação.`;
+        // Mensagem para o DONO (com senha)
+        let msgDono = `🆕 *NOVO PEDIDO - Barbearia Camisa 12 Sports*\n\n` +
+            `👤 Cliente: ${nome}\n📞 WhatsApp: ${whats}\n✂️ Serviço: ${servicoNome}\n` +
+            `💰 Valor: R$ ${valor.toFixed(2)}\n💳 Pagamento: ${pagamentoTexto}\n` +
+            `📅 Data: ${dataFormatada}\n⏰ Horário: ${horarioSelecionado}\n` +
+            `🎫 SENHA: ${senhaAtual}\n💬 Obs: ${obs || 'Nenhuma'}\n\n✅ Aguardando confirmação.`;
         if(pagamentoSelecionado === 'pix') msgDono += `\n💰 PIX: ${CHAVE_PIX}`;
         
-        let msgCliente = `✅ *AGENDAMENTO CONFIRMADO!*\n\n🏆 *Barbearia Camisa 12 Sports*\n\n👤 Nome: ${nome}\n✂️ Serviço: ${servicoNome}\n💰 Valor: R$ ${valor.toFixed(2)}\n💳 Pagamento: ${pagamentoTexto}\n📅 Data: ${dataFormatada}\n⏰ Horário: ${horarioSelecionado}\n\n📍 Aguardamos você!`;
-        if(pagamentoSelecionado === 'pix') msgCliente += `\n\n💰 *PIX*\nChave: ${CHAVE_PIX}\nValor: R$ ${valor.toFixed(2)}`;
-        else if(pagamentoSelecionado === 'cartao') msgCliente += `\n\n💳 *Pagamento com Cartão*\nA máquina estará disponível no local.`;
+        // Mensagem para o CLIENTE (com senha e instruções)
+        let msgCliente = `✅ *AGENDAMENTO CONFIRMADO!*\n\n🏆 *Barbearia Camisa 12 Sports*\n\n` +
+            `👤 Nome: ${nome}\n✂️ Serviço: ${servicoNome}\n💰 Valor: R$ ${valor.toFixed(2)}\n` +
+            `💳 Pagamento: ${pagamentoTexto}\n📅 Data: ${dataFormatada}\n⏰ Horário: ${horarioSelecionado}\n\n` +
+            `🔔 *SUA SENHA DE ATENDIMENTO: ${senhaAtual}*\n\n` +
+            `📍 Aguardamos você!\n\n` +
+            `👉 *IMPORTANTE:* Anote ou salve esta senha. Apresente na barbearia no dia do seu horário.\n\n`;
         
+        if(pagamentoSelecionado === 'pix') {
+            msgCliente += `🟣 *PAGAMENTO PIX*\nChave: ${CHAVE_PIX}\nValor: R$ ${valor.toFixed(2)}\n\n` +
+                `Como pagar:\n1. Copie a chave acima\n2. Abra o app do seu banco\n3. Cole a chave\n4. Digite o valor R$ ${valor.toFixed(2)}\n5. Confirme o pagamento`;
+        } else if(pagamentoSelecionado === 'cartao') {
+            msgCliente += `💳 *Pagamento com Cartão*\nA máquina estará disponível no local.`;
+        } else if(pagamentoSelecionado === 'dinheiro') {
+            msgCliente += `💰 *Pagamento em Dinheiro*\nPague no local.`;
+        }
+        
+        // Salvar pedido
         let pedidos = JSON.parse(localStorage.getItem('barbearia_pedidos') || '[]');
-        pedidos.unshift({ id: Date.now(), nome, whats, servico: servicoSelecionado, servicoNome, valor, data: dataSelecionada, dataFormatada, horario: horarioSelecionado, pagamento: pagamentoSelecionado, pagamentoTexto, obs, status: 'pendente' });
+        pedidos.unshift({ id: Date.now(), nome, whats, servico: servicoSelecionado, servicoNome, valor, data: dataSelecionada, dataFormatada, horario: horarioSelecionado, pagamento: pagamentoSelecionado, pagamentoTexto, senha: senhaAtual, obs, status: 'pendente' });
         localStorage.setItem('barbearia_pedidos', JSON.stringify(pedidos));
         
+        // Enviar WhatsApp
         enviarWhatsApp(DONO_WHATSAPP, msgDono);
         enviarWhatsApp(whats, msgCliente);
         
-        alert(`✅ AGENDAMENTO REALIZADO!\n\n${servicoNome}\n📅 ${dataFormatada} às ${horarioSelecionado}\n💰 R$ ${valor.toFixed(2)}\n\n📱 Você receberá a confirmação no WhatsApp!`);
+        alert(`✅ AGENDAMENTO REALIZADO!\n\n${servicoNome}\n📅 ${dataFormatada} às ${horarioSelecionado}\n💰 R$ ${valor.toFixed(2)}\n🎫 SENHA: ${senhaAtual}\n\n📱 Você receberá a confirmação no WhatsApp!`);
         
-        document.getElementById('nome').value = ''; document.getElementById('whats').value = ''; document.getElementById('obs').value = '';
-        horarioSelecionado = null; dataSelecionada = null;
+        // Limpar campos
+        document.getElementById('nome').value = '';
+        document.getElementById('whats').value = '';
+        document.getElementById('obs').value = '';
+        senhaAtual = "";
+        document.getElementById('senhaDisplay').innerHTML = "---";
+        document.getElementById('senhaContainer').style.background = "linear-gradient(135deg, #e6b422, #ffce4a)";
+        horarioSelecionado = null;
+        dataSelecionada = null;
+        
         document.querySelectorAll('.cal-day.selected').forEach(d => d.classList.remove('selected'));
         document.querySelectorAll('.hour-slot.selected').forEach(s => s.classList.remove('selected'));
         renderizarHorarios();
