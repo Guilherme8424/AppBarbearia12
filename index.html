@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Barbearia Camisa 12 Sports - Agendamento Online</title>
+    <title>Barbearia Camisa 12 Sports - Fila de Atendimento</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #e8f4f8 0%, #d4eaf0 100%); min-height: 100vh; padding: 20px; }
@@ -16,6 +16,32 @@
         .logo-text { margin-top: 10px; font-size: 0.8rem; letter-spacing: 3px; color: #e6b422; text-transform: uppercase; font-weight: bold; }
         .header h1 { color: white; font-size: 1.3rem; }
         .header p { color: #ccc; font-size: 0.7rem; }
+        
+        /* STATUS DA FILA */
+        .fila-status {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: white;
+        }
+        .fila-status h3 { color: #e6b422; margin-bottom: 10px; }
+        .fila-atual {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e6b422;
+            background: rgba(255,255,255,0.1);
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 50px;
+            margin: 10px 0;
+        }
+        .total-espera {
+            font-size: 1rem;
+            color: #ccc;
+        }
+        
         .app-banner { background: linear-gradient(135deg, #2d2d44, #1a1a2e); border-radius: 25px; padding: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; border: 1px solid #e6b422; }
         .app-info { flex: 2; min-width: 180px; }
         .app-info h3 { color: #e6b422; font-size: 1rem; }
@@ -23,7 +49,6 @@
         .qr-code-app { text-align: center; background: white; padding: 12px; border-radius: 20px; cursor: pointer; min-width: 110px; }
         .qr-code-app canvas { width: 80px !important; height: 80px !important; }
         .qr-code-app small { font-size: 0.65rem; color: #555; display: block; }
-        .qr-code-app strong { color: #e6b422; font-size: 0.7rem; }
         .qr-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; }
         .qr-modal-content { background: white; border-radius: 30px; padding: 25px; text-align: center; max-width: 85%; }
         .qr-modal-content canvas { width: 250px !important; height: 250px !important; margin: 15px 0; }
@@ -43,117 +68,50 @@
         label { display: block; margin-top: 12px; margin-bottom: 5px; font-weight: 600; color: #333; }
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 15px; font-size: 1rem; }
         
-        /* PIX - ESTILO BANCO NUBANK */
-        .pix-container {
-            background: linear-gradient(135deg, #6c2bd4, #8b5cf6);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 10px 0;
-            text-align: center;
-        }
-        .pix-title {
-            color: white;
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-        .pix-key-box {
-            background: white;
-            border-radius: 15px;
-            padding: 15px;
-            margin: 10px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .pix-key-value {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #333;
-            word-break: break-all;
-            flex: 1;
-        }
-        .btn-copy-pix {
-            background: #6c2bd4;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .pix-value {
-            background: rgba(255,255,255,0.2);
-            border-radius: 12px;
-            padding: 10px;
-            margin-top: 10px;
-            color: white;
-            font-weight: bold;
-        }
-        
         /* SENHA */
         .senha-container {
-            background: linear-gradient(135deg, #e6b422, #ffce4a);
+            background: linear-gradient(135deg, #28a745, #20c997);
             border-radius: 20px;
             padding: 15px;
             margin: 10px 0;
             text-align: center;
             cursor: pointer;
-            animation: pulse-senha 2s infinite;
         }
-        @keyframes pulse-senha {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(230,180,34,0.4); }
-            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(230,180,34,0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(230,180,34,0); }
-        }
-        .senha-title { color: #1a1a2e; font-weight: bold; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .senha-value { font-size: 1.5rem; font-weight: bold; color: #1a1a2e; letter-spacing: 4px; }
-        .senha-btn { background: #1a1a2e; color: #e6b422; border: none; padding: 8px 16px; border-radius: 25px; margin-top: 8px; cursor: pointer; font-weight: bold; }
+        .senha-title { color: white; font-weight: bold; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .senha-number { font-size: 2rem; font-weight: bold; color: white; letter-spacing: 2px; background: rgba(0,0,0,0.2); display: inline-block; padding: 8px 25px; border-radius: 50px; margin: 10px 0; }
+        .senha-position { font-size: 0.9rem; color: white; margin-top: 5px; }
+        .senha-timer { background: rgba(0,0,0,0.1); border-radius: 15px; padding: 8px; margin-top: 8px; font-size: 0.8rem; color: white; }
+        .senha-btn { background: white; color: #28a745; border: none; padding: 8px 16px; border-radius: 25px; margin-top: 8px; cursor: pointer; font-weight: bold; }
+        
+        .pix-container { background: linear-gradient(135deg, #6c2bd4, #8b5cf6); border-radius: 20px; padding: 20px; margin: 10px 0; text-align: center; }
+        .pix-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .pix-tab { flex: 1; background: rgba(255,255,255,0.2); border: none; padding: 10px; border-radius: 15px; color: white; font-weight: bold; cursor: pointer; }
+        .pix-tab.active { background: white; color: #6c2bd4; }
+        .pix-content { display: none; }
+        .pix-content.active { display: block; }
+        .pix-title { color: white; font-weight: bold; margin-bottom: 10px; font-size: 1rem; }
+        .pix-key-box { background: white; border-radius: 15px; padding: 15px; margin: 10px 0; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .pix-key-value { font-size: 1rem; font-weight: bold; color: #333; word-break: break-all; flex: 1; }
+        .btn-copy-pix { background: #6c2bd4; color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-weight: bold; }
+        .pix-value { background: rgba(255,255,255,0.2); border-radius: 12px; padding: 10px; margin-top: 10px; color: white; font-weight: bold; font-size: 1.1rem; }
+        .pix-qr-custom { background: white; border-radius: 20px; padding: 15px; margin: 10px 0; text-align: center; }
+        .pix-qr-custom img { max-width: 180px; width: 100%; height: auto; margin: 0 auto; }
         
         .info-cartao { background: #e8f4f8; padding: 10px; border-radius: 12px; font-size: 0.7rem; text-align: center; margin-top: 5px; display: none; }
         .payment-options { display: flex; gap: 12px; margin-top: 5px; flex-wrap: wrap; }
         .payment-card { flex: 1; background: #f8f9fa; border: 2px solid #e0e0e0; border-radius: 15px; padding: 12px; text-align: center; cursor: pointer; }
         .payment-card.selected { border-color: #e6b422; background: #fff8e7; }
         .payment-icon { font-size: 1.5rem; }
-        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin: 15px 0; }
-        .month-nav { background: #e6b422; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; }
-        .weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 0.7rem; color: #555; margin-bottom: 5px; font-weight: 600; }
-        .calendar-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
-        .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: #f8f9fa; border-radius: 50%; cursor: pointer; font-size: 0.8rem; font-weight: 600; color: #1a1a2e; }
-        .cal-day.selected { background: #e6b422; color: white; }
-        .cal-day.disabled { opacity: 0.3; cursor: not-allowed; }
-        .hours-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; }
-        .hour-slot { background: #f8f9fa; border: 1px solid #ddd; border-radius: 25px; padding: 8px 16px; cursor: pointer; }
-        .hour-slot.selected { background: #e6b422; color: white; }
         .total-area { background: #f8f9fa; border-radius: 15px; padding: 12px; text-align: center; margin: 15px 0; }
         .total-value { font-size: 1.8rem; font-weight: bold; color: #e6b422; }
         .btn-agendar { background: #e6b422; width: 100%; padding: 15px; border: none; border-radius: 30px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 15px; }
         footer { text-align: center; padding: 20px; color: #888; font-size: 0.7rem; }
         
-        .senha-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 3000;
-            justify-content: center;
-            align-items: center;
-        }
-        .senha-modal-content {
-            background: linear-gradient(135deg, #fff8e7, #fff4dc);
-            border-radius: 40px;
-            padding: 30px;
-            text-align: center;
-            max-width: 85%;
-            border: 2px solid #e6b422;
-        }
-        .senha-modal-content h2 { color: #e6b422; margin-bottom: 15px; }
-        .senha-modal-big { font-size: 3rem; font-weight: bold; color: #1a1a2e; letter-spacing: 10px; background: white; padding: 20px; border-radius: 20px; margin: 15px 0; }
+        .senha-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center; }
+        .senha-modal-content { background: linear-gradient(135deg, #28a745, #20c997); border-radius: 40px; padding: 30px; text-align: center; max-width: 85%; border: 2px solid white; }
+        .senha-modal-content h2 { color: white; margin-bottom: 15px; }
+        .senha-modal-big { font-size: 4rem; font-weight: bold; color: #28a745; background: white; padding: 20px; border-radius: 20px; margin: 15px 0; }
+        .senha-modal-content p { color: white; }
         @media (max-width: 480px) { .app-banner { flex-direction: column; text-align: center; } }
     </style>
 </head>
@@ -164,6 +122,14 @@
         <div class="logo-text">BARBEARIA</div>
         <h1>Camisa 12 Sports</h1>
         <p>Corte, barba e estilo para o verdadeiro camisa 12</p>
+    </div>
+
+    <!-- STATUS DA FILA EM TEMPO REAL -->
+    <div class="fila-status">
+        <h3>🎫 FILA DE ATENDIMENTO</h3>
+        <div>Estamos atendendo agora:</div>
+        <div class="fila-atual" id="senhaAtualDisplay">---</div>
+        <div class="total-espera" id="pessoasNaFrente">Pessoas na fila: 0</div>
     </div>
 
     <div class="app-banner">
@@ -193,7 +159,7 @@
 
         <label>📞 Seu WhatsApp (com DDD)</label>
         <input type="tel" id="whats" placeholder="Ex: 5521989533627">
-        <small style="color:#888;">Você receberá a confirmação aqui</small>
+        <small style="color:#888;">Você será avisado quando chegar sua vez</small>
 
         <label>💳 Forma de Pagamento</label>
         <div class="payment-options" id="paymentOptions">
@@ -202,50 +168,52 @@
             <div class="payment-card" data-pagamento="cartao"><div class="payment-icon">💳</div><div class="payment-name">Cartão</div></div>
         </div>
 
-        <!-- SENHA -->
+        <!-- SENHA DA FILA -->
         <div class="senha-container" id="senhaContainer">
-            <div class="senha-title">🔔 SUA SENHA DE ATENDIMENTO 🔔</div>
-            <div class="senha-value" id="senhaDisplay">---</div>
-            <div style="font-size:0.7rem;">Clique para gerar sua senha</div>
-            <button class="senha-btn" id="gerarSenhaBtn">🎫 GERAR SENHA</button>
+            <div class="senha-title">🎫 SUA POSIÇÃO NA FILA</div>
+            <div class="senha-number" id="senhaDisplay">---</div>
+            <div class="senha-position" id="posicaoDisplay"></div>
+            <div class="senha-timer" id="timerDisplay"></div>
+            <button class="senha-btn" id="entrarFilaBtn">🎫 ENTRAR NA FILA</button>
         </div>
 
-        <!-- PIX - COM QR CODE E VALOR DINÂMICO -->
-        <div class="pix-container" id="pixContainer">
-            <div class="pix-title">🟣 PIX - Banco Nubank</div>
-            <div class="pix-key-box">
-                <span class="pix-key-value" id="pixKeyDisplay">10189438703</span>
-                <button class="btn-copy-pix" id="copyPixBtn">📋 Copiar Chave</button>
+        <!-- PIX -->
+        <div class="pix-container">
+            <div class="pix-tabs">
+                <button class="pix-tab active" id="tabChave">🔑 CHAVE PIX</button>
+                <button class="pix-tab" id="tabQrCode">📱 QR CODE</button>
             </div>
-            <!-- QR Code PIX com valor dinâmico -->
-            <div id="pixQrCode" style="display: flex; justify-content: center; margin: 10px 0;"></div>
-            <div class="pix-value" id="pixValorDisplay">💰 Valor: R$ 40,00</div>
-            <small style="color:rgba(255,255,255,0.8);">Escaneie o QR Code ou copie a chave</small>
+            <div class="pix-content active" id="contentChave">
+                <div class="pix-title">🟣 PIX - Banco Nubank</div>
+                <div class="pix-key-box">
+                    <span class="pix-key-value" id="pixKeyDisplay">10189438703</span>
+                    <button class="btn-copy-pix" id="copyPixBtn">📋 Copiar</button>
+                </div>
+                <div class="pix-value" id="pixValorDisplay">💰 Valor: R$ 40,00</div>
+            </div>
+            <div class="pix-content" id="contentQrCode">
+                <div class="pix-title">📱 ESCANEIE O QR CODE</div>
+                <div class="pix-qr-custom">
+                    <img src="https://via.placeholder.com/180x180?text=SEU+QR+CODE" id="meuQrCode">
+                </div>
+                <div class="pix-value" id="pixValorDisplay2">💰 Valor: R$ 40,00</div>
+            </div>
         </div>
 
         <div class="info-cartao" id="infoCartao">💳 Pagamento com Cartão: A máquina estará disponível no local.</div>
 
-        <label>📅 Data do agendamento</label>
-        <div class="calendar-header"><button class="month-nav" id="prevMonth">◀</button><span class="month-year" id="monthYear"></span><button class="month-nav" id="nextMonth">▶</button></div>
-        <div class="weekdays"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
-        <div class="calendar-days" id="calendarDays"></div>
-
-        <label>⏰ Horário</label>
-        <div class="hours-grid" id="hoursGrid"></div>
-
-        <label>💬 Observações</label>
-        <textarea id="obs" rows="2" placeholder="Alguma preferência?"></textarea>
-
-        <button class="btn-agendar" id="btnAgendar">📌 CONFIRMAR AGENDAMENTO</button>
+        <button class="btn-agendar" id="btnConfirmarFila">📌 CONFIRMAR E ENTRAR NA FILA</button>
     </div>
-    <footer>Barbearia Camisa 12 Sports • Agendamento via WhatsApp</footer>
+    <footer>Barbearia Camisa 12 Sports • Fila de Atendimento</footer>
 </div>
 
+<!-- MODAL DE SENHA -->
 <div id="senhaModal" class="senha-modal">
     <div class="senha-modal-content">
-        <h2>🎫 SUA SENHA DE ATENDIMENTO</h2>
+        <h2>🎫 VOCÊ ESTÁ NA FILA!</h2>
         <div class="senha-modal-big" id="senhaModalDisplay">---</div>
-        <p>Apresente esta senha na barbearia</p>
+        <p id="modalPosicaoDisplay"></p>
+        <p id="modalTimerDisplay"></p>
         <button class="modal-close" id="closeSenhaModal">Fechar</button>
     </div>
 </div>
@@ -260,60 +228,129 @@
     const CHAVE_PIX = "10189438703";
     const DONO_WHATSAPP = "5521989533627";
     const LINK_APP = "https://guilherme8424.github.io/AppBarbearia12/";
+    const LINK_QR_CODE_IMAGEM = "https://via.placeholder.com/180x180?text=SEU+QR+CODE";
     
-    let senhaAtual = "";
+    // FILA - controle
+    let filaClientes = JSON.parse(localStorage.getItem('filaClientes') || '[]');
+    let senhaAtualAtendimento = parseInt(localStorage.getItem('senhaAtualAtendimento') || '0');
+    let ultimaSenha = parseInt(localStorage.getItem('ultimaSenha') || '0');
+    
+    let clienteLogado = null; // cliente que está na sessão atual
+    let abaAtiva = "chave";
     // ===================================
 
     let precos = { corte: 40, barba: 35, combo: 70 };
     let servicoSelecionado = "corte";
-    let dataSelecionada = null;
-    let horarioSelecionado = null;
     let pagamentoSelecionado = "pix";
-    let mesAtual = new Date().getMonth();
-    let anoAtual = new Date().getFullYear();
 
-    const horarios = ["09:00","09:40","10:20","11:00","11:40","13:00","13:40","14:20","15:00","15:40","16:20","17:00","17:40","18:20","19:00"];
     const pagamentoEmoji = { pix: "💳 PIX", dinheiro: "💰 Dinheiro", cartao: "💳 Cartão" };
 
-    // Função para gerar QR Code PIX com o VALOR DINÂMICO
-    function gerarPixQRCode(valor) {
-        const container = document.getElementById('pixQrCode');
-        if(container) {
-            container.innerHTML = '';
-            // Payload PIX com valor (formato BR)
-            const valorCentavos = Math.round(valor * 100);
-            const pixPayload = `00020101021126330014BR.GOV.BCB.PIX0111${CHAVE_PIX}5204000053039865404${valorCentavos}5802BR5925BARBEARIA CAMISA 126009Sao Paulo62070503***6304`;
-            try {
-                new QRCode(container, {
-                    text: pixPayload,
-                    width: 150,
-                    height: 150,
-                    colorDark: "#000000",
-                    colorLight: "#ffffff",
-                    correctLevel: QRCode.CorrectLevel.H
-                });
-            } catch(e) {
-                new QRCode(container, { text: CHAVE_PIX, width: 150, height: 150 });
+    function alternarAba(aba) {
+        abaAtiva = aba;
+        document.getElementById('tabChave').classList.toggle('active', aba === 'chave');
+        document.getElementById('tabQrCode').classList.toggle('active', aba === 'qrCode');
+        document.getElementById('contentChave').classList.toggle('active', aba === 'chave');
+        document.getElementById('contentQrCode').classList.toggle('active', aba === 'qrCode');
+    }
+    
+    function carregarImagemQRCode() {
+        const imgElement = document.getElementById('meuQrCode');
+        if(imgElement) imgElement.src = LINK_QR_CODE_IMAGEM;
+    }
+
+    function atualizarStatusFila() {
+        // Atualiza quem está sendo atendido agora
+        document.getElementById('senhaAtualDisplay').innerHTML = senhaAtualAtendimento === 0 ? "---" : String(senhaAtualAtendimento).padStart(3, '0');
+        
+        // Pessoas na frente do cliente atual
+        if(clienteLogado) {
+            const pessoasNaFrente = filaClientes.filter(c => c.senha < clienteLogado.senha && c.status === 'aguardando').length;
+            document.getElementById('pessoasNaFrente').innerHTML = `Pessoas na sua frente: ${pessoasNaFrente}`;
+            
+            // Tempo estimado
+            const tempoEspera = pessoasNaFrente * 10;
+            const tempoTexto = tempoEspera >= 60 ? `${Math.floor(tempoEspera/60)}h ${tempoEspera%60}min` : `${tempoEspera}min`;
+            document.getElementById('timerDisplay').innerHTML = `⏱️ Tempo estimado: ${tempoTexto} `;
+        } else {
+            const totalFila = filaClientes.filter(c => c.status === 'aguardando').length;
+            document.getElementById('pessoasNaFrente').innerHTML = `Pessoas na fila: ${totalFila}`;
+        }
+    }
+
+    function entrarNaFila() {
+        const nome = document.getElementById('nome').value.trim();
+        const whats = document.getElementById('whats').value.trim();
+        
+        if(!nome || !whats) {
+            alert("⚠️ Preencha nome e WhatsApp antes de entrar na fila!");
+            return;
+        }
+        
+        // Gerar nova senha
+        ultimaSenha++;
+        localStorage.setItem('ultimaSenha', ultimaSenha);
+        
+        const novaSenha = ultimaSenha;
+        const posicao = filaClientes.filter(c => c.status === 'aguardando').length + 1;
+        const tempoEspera = (posicao - 1) * 10;
+        const tempoTexto = tempoEspera >= 60 ? `${Math.floor(tempoEspera/60)}h ${tempoEspera%60}min` : `${tempoEspera}min`;
+        
+        // Novo cliente na fila
+        clienteLogado = {
+            senha: novaSenha,
+            nome: nome,
+            whats: whats,
+            servico: servicoSelecionado,
+            valor: servicoSelecionado === 'corte' ? precos.corte : (servicoSelecionado === 'barba' ? precos.barba : precos.combo),
+            pagamento: pagamentoSelecionado,
+            status: 'aguardando',
+            entrada: new Date().toISOString()
+        };
+        
+        filaClientes.push(clienteLogado);
+        localStorage.setItem('filaClientes', JSON.stringify(filaClientes));
+        
+        // Atualizar display
+        const senhaFormatada = String(novaSenha).padStart(3, '0');
+        document.getElementById('senhaDisplay').innerHTML = senhaFormatada;
+        document.getElementById('posicaoDisplay').innerHTML = `📌 Posição na fila: ${posicao}º`;
+        document.getElementById('timerDisplay').innerHTML = `⏱️ Tempo estimado: ${tempoTexto}`;
+        
+        document.getElementById('senhaModalDisplay').innerHTML = senhaFormatada;
+        document.getElementById('modalPosicaoDisplay').innerHTML = `📌 Posição: ${posicao}º`;
+        document.getElementById('modalTimerDisplay').innerHTML = `⏱️ Tempo: ${tempoTexto}`;
+        document.getElementById('senhaModal').style.display = 'flex';
+        
+        atualizarStatusFila();
+        
+        // Enviar mensagem para o DONO
+        let msgDono = `🆕 *NOVO CLIENTE NA FILA!*\n\n👤 Nome: ${nome}\n📞 WhatsApp: ${whats}\n✂️ Serviço: ${servicoSelecionado === 'corte' ? 'Corte' : (servicoSelecionado === 'barba' ? 'Barba' : 'Combo')}\n💰 Valor: R$ ${clienteLogado.valor.toFixed(2)}\n💳 Pagamento: ${pagamentoEmoji[pagamentoSelecionado]}\n🎫 SENHA: ${senhaFormatada}\n📌 POSIÇÃO: ${posicao}º\n⏱️ TEMPO ESTIMADO: ${tempoTexto}\n\n✅ Aguardando atendimento.`;
+        
+        enviarWhatsApp(DONO_WHATSAPP, msgDono);
+        
+        alert(`✅ VOCÊ ENTROU NA FILA!\n\n🎫 SENHA: ${senhaFormatada}\n📌 POSIÇÃO: ${posicao}º\n⏱️ TEMPO ESTIMADO: ${tempoTexto}\n\n📱 Você receberá uma mensagem quando chegar sua vez!`);
+    }
+
+    function confirmarFila() {
+        if(!clienteLogado) {
+            alert("⚠️ Entre na fila primeiro clicando em 'ENTRAR NA FILA'!");
+            return;
+        }
+        
+        // Enviar mensagem para o cliente
+        const senhaFormatada = String(clienteLogado.senha).padStart(3, '0');
+        let msgCliente = `✅ *VOCÊ ESTÁ NA FILA DE ATENDIMENTO!*\n\n🏆 *Barbearia Camisa 12 Sports*\n\n👤 Nome: ${clienteLogado.nome}\n✂️ Serviço: ${clienteLogado.servico === 'corte' ? 'Corte' : (clienteLogado.servico === 'barba' ? 'Barba' : 'Combo')}\n💰 Valor: R$ ${clienteLogado.valor.toFixed(2)}\n💳 Pagamento: ${pagamentoEmoji[pagamentoSelecionado]}\n\n🎫 *SUA SENHA: ${senhaFormatada}*\n\n📍 Aguardamos você!\n\n👉 *IMPORTANTE:* Guarde sua senha. Você será avisado no WhatsApp quando chegar sua vez!\n\n`;
+        
+        if(pagamentoSelecionado === 'pix') {
+            if(abaAtiva === 'chave') {
+                msgCliente += `🟣 *PAGAMENTO PIX*\nChave: ${CHAVE_PIX}\nValor: R$ ${clienteLogado.valor.toFixed(2)}`;
+            } else {
+                msgCliente += `📱 *PAGAMENTO PIX (QR CODE)*\nValor: R$ ${clienteLogado.valor.toFixed(2)}`;
             }
         }
-    }
-
-    function gerarSenha() {
-        const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        const numeros = "0123456789";
-        let senha = "";
-        for(let i = 0; i < 2; i++) senha += letras.charAt(Math.floor(Math.random() * letras.length));
-        for(let i = 0; i < 3; i++) senha += numeros.charAt(Math.floor(Math.random() * numeros.length));
-        return senha;
-    }
-
-    function exibirSenhaModal() {
-        if(senhaAtual) {
-            document.getElementById('senhaModalDisplay').innerHTML = senhaAtual;
-            document.getElementById('senhaModal').style.display = 'flex';
-        } else {
-            alert("⚠️ Clique em 'GERAR SENHA' primeiro!");
-        }
+        
+        enviarWhatsApp(clienteLogado.whats, msgCliente);
+        alert(`✅ Confirmação enviada para ${clienteLogado.nome}!\n\n📱 Mensagem enviada no WhatsApp.`);
     }
 
     function copiarChavePix() {
@@ -324,10 +361,9 @@
     function atualizarValorPix() {
         let valor = servicoSelecionado === 'corte' ? precos.corte : (servicoSelecionado === 'barba' ? precos.barba : precos.combo);
         document.getElementById('pixValorDisplay').innerHTML = `💰 Valor: R$ ${valor.toFixed(2)}`;
+        document.getElementById('pixValorDisplay2').innerHTML = `💰 Valor: R$ ${valor.toFixed(2)}`;
         document.getElementById('totalValor').innerHTML = `R$ ${valor.toFixed(2)}`;
         document.getElementById('servicoPriceDisplay').innerHTML = `💰 Valor: R$ ${(servicoSelecionado === 'corte' ? precos.corte : precos.barba).toFixed(2)}`;
-        // Atualiza o QR Code PIX com o novo valor
-        gerarPixQRCode(valor);
     }
 
     function gerarQRCodeApp() {
@@ -338,40 +374,6 @@
     }
 
     function toggleInfoCartao() { document.getElementById('infoCartao').style.display = pagamentoSelecionado === 'cartao' ? 'block' : 'none'; }
-    function atualizarTotal() { atualizarValorPix(); }
-
-    function carregarPrecos() { 
-        document.getElementById('precoCombo').innerHTML = `R$ ${precos.combo}`; 
-        atualizarValorPix(); 
-    }
-    
-    function gerarCalendario() {
-        const meses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-        document.getElementById('monthYear').innerHTML = `${meses[mesAtual]} ${anoAtual}`;
-        const primeiroDia = new Date(anoAtual, mesAtual, 1).getDay();
-        const diasNoMes = new Date(anoAtual, mesAtual + 1, 0).getDate();
-        const hoje = new Date(); hoje.setHours(0,0,0,0);
-        let html = '';
-        for(let i = 0; i < primeiroDia; i++) html += `<div class="cal-day"></div>`;
-        for(let d = 1; d <= diasNoMes; d++) {
-            const dataObj = new Date(anoAtual, mesAtual, d);
-            const isPassado = dataObj < hoje;
-            const isSelecionado = dataSelecionada === `${anoAtual}-${mesAtual+1}-${d}`;
-            let classe = 'cal-day';
-            if(isPassado) classe += ' disabled';
-            if(isSelecionado) classe += ' selected';
-            html += `<div class="${classe}" data-dia="${d}">${d}</div>`;
-        }
-        document.getElementById('calendarDays').innerHTML = html;
-        document.querySelectorAll('.cal-day:not(.disabled)').forEach(el => { if(el.dataset.dia) { el.onclick = () => { dataSelecionada = `${anoAtual}-${mesAtual+1}-${el.dataset.dia}`; document.querySelectorAll('.cal-day').forEach(d => d.classList.remove('selected')); el.classList.add('selected'); }; } });
-    }
-
-    function renderizarHorarios() {
-        const container = document.getElementById('hoursGrid');
-        container.innerHTML = '';
-        horarios.forEach(h => { const slot = document.createElement('div'); slot.className = 'hour-slot'; if(horarioSelecionado === h) slot.classList.add('selected'); slot.textContent = h; slot.onclick = () => { horarioSelecionado = h; document.querySelectorAll('.hour-slot').forEach(s => s.classList.remove('selected')); slot.classList.add('selected'); }; container.appendChild(slot); });
-        if(!horarioSelecionado && horarios.length) { horarioSelecionado = horarios[3]; renderizarHorarios(); }
-    }
 
     function initPaymentOptions() {
         document.querySelectorAll('.payment-card').forEach(card => { card.onclick = () => { pagamentoSelecionado = card.dataset.pagamento; document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('selected')); card.classList.add('selected'); toggleInfoCartao(); }; });
@@ -391,81 +393,28 @@
     }
 
     // Eventos
-    document.getElementById('gerarSenhaBtn').onclick = () => {
-        senhaAtual = gerarSenha();
-        document.getElementById('senhaDisplay').innerHTML = senhaAtual;
-        document.getElementById('senhaContainer').style.background = "linear-gradient(135deg, #28a745, #20c997)";
-        alert(`✅ Senha gerada: ${senhaAtual}\n\nApresente esta senha na barbearia!`);
-    };
-    
-    document.getElementById('senhaContainer').onclick = () => {
-        if(senhaAtual) exibirSenhaModal();
-        else alert("⚠️ Clique em 'GERAR SENHA' primeiro!");
-    };
-
+    document.getElementById('tabChave').onclick = () => alternarAba('chave');
+    document.getElementById('tabQrCode').onclick = () => alternarAba('qrCode');
+    document.getElementById('entrarFilaBtn').onclick = entrarNaFila;
+    document.getElementById('btnConfirmarFila').onclick = confirmarFila;
     document.getElementById('closeSenhaModal').onclick = fecharSenhaModal;
-    document.getElementById('servicoSelect').onchange = (e) => { servicoSelecionado = e.target.value; atualizarTotal(); };
-    document.getElementById('prevMonth').onclick = () => { if(mesAtual === 0) { mesAtual = 11; anoAtual--; } else mesAtual--; gerarCalendario(); };
-    document.getElementById('nextMonth').onclick = () => { if(mesAtual === 11) { mesAtual = 0; anoAtual++; } else mesAtual++; gerarCalendario(); };
-    document.getElementById('comboCard').onclick = () => { servicoSelecionado = 'combo'; document.getElementById('servicoSelect').value = 'corte'; abrirModalCombo(); atualizarTotal(); };
+    
+    document.getElementById('servicoSelect').onchange = (e) => { servicoSelecionado = e.target.value; atualizarValorPix(); };
+    document.getElementById('comboCard').onclick = () => { servicoSelecionado = 'combo'; document.getElementById('servicoSelect').value = 'corte'; abrirModalCombo(); atualizarValorPix(); };
     document.getElementById('comboModal').onclick = (e) => { if(e.target === document.getElementById('comboModal')) fecharModalCombo(); };
     document.getElementById('closeComboModalBtn').onclick = fecharModalCombo;
     document.getElementById('copyPixBtn').onclick = copiarChavePix;
     document.getElementById('qrCodeAppBtn').onclick = abrirModalApp;
     document.getElementById('closeQrAppModal').onclick = fecharModalApp;
 
-    document.getElementById('btnAgendar').onclick = () => {
-        const nome = document.getElementById('nome').value.trim();
-        const whats = document.getElementById('whats').value.trim();
-        const obs = document.getElementById('obs').value;
-        
-        if(!nome || !whats) { alert("⚠️ Preencha nome e WhatsApp!"); return; }
-        if(!dataSelecionada) { alert("📅 Selecione uma data!"); return; }
-        if(!horarioSelecionado) { alert("⏰ Selecione um horário!"); return; }
-        if(!senhaAtual) { alert("🔔 Clique em 'GERAR SENHA' para obter sua senha de atendimento!"); return; }
-        
-        let servicoNome = servicoSelecionado === 'corte' ? '✂️ Corte' : (servicoSelecionado === 'barba' ? '🧔 Barba' : '🏆 Combo Camisa 12');
-        let valor = servicoSelecionado === 'corte' ? precos.corte : (servicoSelecionado === 'barba' ? precos.barba : precos.combo);
-        const dataFormatada = dataSelecionada.split('-').reverse().join('/');
-        const pagamentoTexto = pagamentoEmoji[pagamentoSelecionado];
-        
-        let msgDono = `🆕 *NOVO PEDIDO - Barbearia Camisa 12 Sports*\n\n👤 Cliente: ${nome}\n📞 WhatsApp: ${whats}\n✂️ Serviço: ${servicoNome}\n💰 Valor: R$ ${valor.toFixed(2)}\n💳 Pagamento: ${pagamentoTexto}\n📅 Data: ${dataFormatada}\n⏰ Horário: ${horarioSelecionado}\n🎫 SENHA: ${senhaAtual}\n💬 Obs: ${obs || 'Nenhuma'}\n\n✅ Aguardando confirmação.`;
-        if(pagamentoSelecionado === 'pix') msgDono += `\n💰 PIX: ${CHAVE_PIX} - Valor: R$ ${valor.toFixed(2)}`;
-        
-        let msgCliente = `✅ *AGENDAMENTO CONFIRMADO!*\n\n🏆 *Barbearia Camisa 12 Sports*\n\n👤 Nome: ${nome}\n✂️ Serviço: ${servicoNome}\n💰 Valor: R$ ${valor.toFixed(2)}\n💳 Pagamento: ${pagamentoTexto}\n📅 Data: ${dataFormatada}\n⏰ Horário: ${horarioSelecionado}\n\n🔔 *SUA SENHA DE ATENDIMENTO: ${senhaAtual}*\n\n📍 Aguardamos você!\n\n👉 *IMPORTANTE:* Anote ou salve esta senha.\n\n`;
-        
-        if(pagamentoSelecionado === 'pix') {
-            msgCliente += `🟣 *PAGAMENTO PIX*\nChave: ${CHAVE_PIX}\nValor: R$ ${valor.toFixed(2)}\n\nEscaneie o QR Code no site ou copie a chave.`;
-        } else if(pagamentoSelecionado === 'cartao') {
-            msgCliente += `💳 *Pagamento com Cartão*\nA máquina estará disponível no local.`;
-        } else if(pagamentoSelecionado === 'dinheiro') {
-            msgCliente += `💰 *Pagamento em Dinheiro*\nPague no local.`;
-        }
-        
-        let pedidos = JSON.parse(localStorage.getItem('barbearia_pedidos') || '[]');
-        pedidos.unshift({ id: Date.now(), nome, whats, servico: servicoSelecionado, servicoNome, valor, data: dataSelecionada, dataFormatada, horario: horarioSelecionado, pagamento: pagamentoSelecionado, pagamentoTexto, senha: senhaAtual, obs, status: 'pendente' });
-        localStorage.setItem('barbearia_pedidos', JSON.stringify(pedidos));
-        
-        enviarWhatsApp(DONO_WHATSAPP, msgDono);
-        enviarWhatsApp(whats, msgCliente);
-        
-        alert(`✅ AGENDAMENTO REALIZADO!\n\n${servicoNome}\n📅 ${dataFormatada} às ${horarioSelecionado}\n💰 R$ ${valor.toFixed(2)}\n🎫 SENHA: ${senhaAtual}\n\n📱 Você receberá a confirmação no WhatsApp!`);
-        
-        document.getElementById('nome').value = '';
-        document.getElementById('whats').value = '';
-        document.getElementById('obs').value = '';
-        senhaAtual = "";
-        document.getElementById('senhaDisplay').innerHTML = "---";
-        document.getElementById('senhaContainer').style.background = "linear-gradient(135deg, #e6b422, #ffce4a)";
-        horarioSelecionado = null;
-        dataSelecionada = null;
-        
-        document.querySelectorAll('.cal-day.selected').forEach(d => d.classList.remove('selected'));
-        document.querySelectorAll('.hour-slot.selected').forEach(s => s.classList.remove('selected'));
-        renderizarHorarios();
-    };
+    // Atualizar fila automaticamente a cada 10 segundos
+    setInterval(() => {
+        const saved = localStorage.getItem('filaClientes');
+        if(saved) filaClientes = JSON.parse(saved);
+        atualizarStatusFila();
+    }, 10000);
 
-    carregarPrecos(); gerarCalendario(); renderizarHorarios(); initPaymentOptions(); setTimeout(gerarQRCodeApp, 100);
+    atualizarValorPix(); initPaymentOptions(); carregarImagemQRCode(); setTimeout(gerarQRCodeApp, 100);
 </script>
 </body>
 </html>
