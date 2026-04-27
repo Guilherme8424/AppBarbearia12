@@ -43,7 +43,7 @@
         label { display: block; margin-top: 12px; margin-bottom: 5px; font-weight: 600; color: #333; }
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 15px; font-size: 1rem; }
         
-        /* PIX - ESTILO */
+        /* PIX - ESTILO BANCO NUBANK */
         .pix-container {
             background: linear-gradient(135deg, #6c2bd4, #8b5cf6);
             border-radius: 20px;
@@ -93,7 +93,7 @@
             font-weight: bold;
         }
         
-        /* SENHA - ALERTA DO CLIENTE */
+        /* SENHA */
         .senha-container {
             background: linear-gradient(135deg, #e6b422, #ffce4a);
             border-radius: 20px;
@@ -108,31 +108,9 @@
             70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(230,180,34,0); }
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(230,180,34,0); }
         }
-        .senha-title {
-            color: #1a1a2e;
-            font-weight: bold;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .senha-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #1a1a2e;
-            letter-spacing: 4px;
-        }
-        .senha-btn {
-            background: #1a1a2e;
-            color: #e6b422;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 25px;
-            margin-top: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+        .senha-title { color: #1a1a2e; font-weight: bold; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .senha-value { font-size: 1.5rem; font-weight: bold; color: #1a1a2e; letter-spacing: 4px; }
+        .senha-btn { background: #1a1a2e; color: #e6b422; border: none; padding: 8px 16px; border-radius: 25px; margin-top: 8px; cursor: pointer; font-weight: bold; }
         
         .info-cartao { background: #e8f4f8; padding: 10px; border-radius: 12px; font-size: 0.7rem; text-align: center; margin-top: 5px; display: none; }
         .payment-options { display: flex; gap: 12px; margin-top: 5px; flex-wrap: wrap; }
@@ -154,7 +132,6 @@
         .btn-agendar { background: #e6b422; width: 100%; padding: 15px; border: none; border-radius: 30px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 15px; }
         footer { text-align: center; padding: 20px; color: #888; font-size: 0.7rem; }
         
-        /* Modal da Senha */
         .senha-modal {
             display: none;
             position: fixed;
@@ -175,20 +152,8 @@
             max-width: 85%;
             border: 2px solid #e6b422;
         }
-        .senha-modal-content h2 {
-            color: #e6b422;
-            margin-bottom: 15px;
-        }
-        .senha-modal-big {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #1a1a2e;
-            letter-spacing: 10px;
-            background: white;
-            padding: 20px;
-            border-radius: 20px;
-            margin: 15px 0;
-        }
+        .senha-modal-content h2 { color: #e6b422; margin-bottom: 15px; }
+        .senha-modal-big { font-size: 3rem; font-weight: bold; color: #1a1a2e; letter-spacing: 10px; background: white; padding: 20px; border-radius: 20px; margin: 15px 0; }
         @media (max-width: 480px) { .app-banner { flex-direction: column; text-align: center; } }
     </style>
 </head>
@@ -237,25 +202,25 @@
             <div class="payment-card" data-pagamento="cartao"><div class="payment-icon">💳</div><div class="payment-name">Cartão</div></div>
         </div>
 
-        <!-- SENHA DO CLIENTE - ALERTA -->
+        <!-- SENHA -->
         <div class="senha-container" id="senhaContainer">
-            <div class="senha-title">
-                🔔 SUA SENHA DE ATENDIMENTO 🔔
-            </div>
+            <div class="senha-title">🔔 SUA SENHA DE ATENDIMENTO 🔔</div>
             <div class="senha-value" id="senhaDisplay">---</div>
             <div style="font-size:0.7rem;">Clique para gerar sua senha</div>
             <button class="senha-btn" id="gerarSenhaBtn">🎫 GERAR SENHA</button>
         </div>
 
-        <!-- PIX -->
+        <!-- PIX - COM QR CODE E VALOR DINÂMICO -->
         <div class="pix-container" id="pixContainer">
             <div class="pix-title">🟣 PIX - Banco Nubank</div>
             <div class="pix-key-box">
                 <span class="pix-key-value" id="pixKeyDisplay">10189438703</span>
-                <button class="btn-copy-pix" id="copyPixBtn">📋 Copiar</button>
+                <button class="btn-copy-pix" id="copyPixBtn">📋 Copiar Chave</button>
             </div>
+            <!-- QR Code PIX com valor dinâmico -->
+            <div id="pixQrCode" style="display: flex; justify-content: center; margin: 10px 0;"></div>
             <div class="pix-value" id="pixValorDisplay">💰 Valor: R$ 40,00</div>
-            <small style="color:rgba(255,255,255,0.8);">Cole a chave no seu banco</small>
+            <small style="color:rgba(255,255,255,0.8);">Escaneie o QR Code ou copie a chave</small>
         </div>
 
         <div class="info-cartao" id="infoCartao">💳 Pagamento com Cartão: A máquina estará disponível no local.</div>
@@ -276,7 +241,6 @@
     <footer>Barbearia Camisa 12 Sports • Agendamento via WhatsApp</footer>
 </div>
 
-<!-- Modal da Senha Ampliado -->
 <div id="senhaModal" class="senha-modal">
     <div class="senha-modal-content">
         <h2>🎫 SUA SENHA DE ATENDIMENTO</h2>
@@ -297,7 +261,6 @@
     const DONO_WHATSAPP = "5521989533627";
     const LINK_APP = "https://guilherme8424.github.io/AppBarbearia12/";
     
-    // Variável da senha
     let senhaAtual = "";
     // ===================================
 
@@ -312,18 +275,35 @@
     const horarios = ["09:00","09:40","10:20","11:00","11:40","13:00","13:40","14:20","15:00","15:40","16:20","17:00","17:40","18:20","19:00"];
     const pagamentoEmoji = { pix: "💳 PIX", dinheiro: "💰 Dinheiro", cartao: "💳 Cartão" };
 
-    // Função para gerar senha aleatória
+    // Função para gerar QR Code PIX com o VALOR DINÂMICO
+    function gerarPixQRCode(valor) {
+        const container = document.getElementById('pixQrCode');
+        if(container) {
+            container.innerHTML = '';
+            // Payload PIX com valor (formato BR)
+            const valorCentavos = Math.round(valor * 100);
+            const pixPayload = `00020101021126330014BR.GOV.BCB.PIX0111${CHAVE_PIX}5204000053039865404${valorCentavos}5802BR5925BARBEARIA CAMISA 126009Sao Paulo62070503***6304`;
+            try {
+                new QRCode(container, {
+                    text: pixPayload,
+                    width: 150,
+                    height: 150,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            } catch(e) {
+                new QRCode(container, { text: CHAVE_PIX, width: 150, height: 150 });
+            }
+        }
+    }
+
     function gerarSenha() {
         const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const numeros = "0123456789";
         let senha = "";
-        // 2 letras + 3 números
-        for(let i = 0; i < 2; i++) {
-            senha += letras.charAt(Math.floor(Math.random() * letras.length));
-        }
-        for(let i = 0; i < 3; i++) {
-            senha += numeros.charAt(Math.floor(Math.random() * numeros.length));
-        }
+        for(let i = 0; i < 2; i++) senha += letras.charAt(Math.floor(Math.random() * letras.length));
+        for(let i = 0; i < 3; i++) senha += numeros.charAt(Math.floor(Math.random() * numeros.length));
         return senha;
     }
 
@@ -346,6 +326,8 @@
         document.getElementById('pixValorDisplay').innerHTML = `💰 Valor: R$ ${valor.toFixed(2)}`;
         document.getElementById('totalValor').innerHTML = `R$ ${valor.toFixed(2)}`;
         document.getElementById('servicoPriceDisplay').innerHTML = `💰 Valor: R$ ${(servicoSelecionado === 'corte' ? precos.corte : precos.barba).toFixed(2)}`;
+        // Atualiza o QR Code PIX com o novo valor
+        gerarPixQRCode(valor);
     }
 
     function gerarQRCodeApp() {
@@ -358,7 +340,10 @@
     function toggleInfoCartao() { document.getElementById('infoCartao').style.display = pagamentoSelecionado === 'cartao' ? 'block' : 'none'; }
     function atualizarTotal() { atualizarValorPix(); }
 
-    function carregarPrecos() { document.getElementById('precoCombo').innerHTML = `R$ ${precos.combo}`; atualizarValorPix(); }
+    function carregarPrecos() { 
+        document.getElementById('precoCombo').innerHTML = `R$ ${precos.combo}`; 
+        atualizarValorPix(); 
+    }
     
     function gerarCalendario() {
         const meses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
@@ -405,7 +390,7 @@
         window.open(`https://wa.me/${numeroLimpo}?text=${encodeURIComponent(mensagem)}`, '_blank'); 
     }
 
-    // Evento de gerar senha
+    // Eventos
     document.getElementById('gerarSenhaBtn').onclick = () => {
         senhaAtual = gerarSenha();
         document.getElementById('senhaDisplay').innerHTML = senhaAtual;
@@ -414,16 +399,11 @@
     };
     
     document.getElementById('senhaContainer').onclick = () => {
-        if(senhaAtual) {
-            exibirSenhaModal();
-        } else {
-            alert("⚠️ Clique em 'GERAR SENHA' primeiro!");
-        }
+        if(senhaAtual) exibirSenhaModal();
+        else alert("⚠️ Clique em 'GERAR SENHA' primeiro!");
     };
 
     document.getElementById('closeSenhaModal').onclick = fecharSenhaModal;
-
-    // Eventos
     document.getElementById('servicoSelect').onchange = (e) => { servicoSelecionado = e.target.value; atualizarTotal(); };
     document.getElementById('prevMonth').onclick = () => { if(mesAtual === 0) { mesAtual = 11; anoAtual--; } else mesAtual--; gerarCalendario(); };
     document.getElementById('nextMonth').onclick = () => { if(mesAtual === 11) { mesAtual = 0; anoAtual++; } else mesAtual++; gerarCalendario(); };
@@ -449,43 +429,28 @@
         const dataFormatada = dataSelecionada.split('-').reverse().join('/');
         const pagamentoTexto = pagamentoEmoji[pagamentoSelecionado];
         
-        // Mensagem para o DONO (com senha)
-        let msgDono = `🆕 *NOVO PEDIDO - Barbearia Camisa 12 Sports*\n\n` +
-            `👤 Cliente: ${nome}\n📞 WhatsApp: ${whats}\n✂️ Serviço: ${servicoNome}\n` +
-            `💰 Valor: R$ ${valor.toFixed(2)}\n💳 Pagamento: ${pagamentoTexto}\n` +
-            `📅 Data: ${dataFormatada}\n⏰ Horário: ${horarioSelecionado}\n` +
-            `🎫 SENHA: ${senhaAtual}\n💬 Obs: ${obs || 'Nenhuma'}\n\n✅ Aguardando confirmação.`;
-        if(pagamentoSelecionado === 'pix') msgDono += `\n💰 PIX: ${CHAVE_PIX}`;
+        let msgDono = `🆕 *NOVO PEDIDO - Barbearia Camisa 12 Sports*\n\n👤 Cliente: ${nome}\n📞 WhatsApp: ${whats}\n✂️ Serviço: ${servicoNome}\n💰 Valor: R$ ${valor.toFixed(2)}\n💳 Pagamento: ${pagamentoTexto}\n📅 Data: ${dataFormatada}\n⏰ Horário: ${horarioSelecionado}\n🎫 SENHA: ${senhaAtual}\n💬 Obs: ${obs || 'Nenhuma'}\n\n✅ Aguardando confirmação.`;
+        if(pagamentoSelecionado === 'pix') msgDono += `\n💰 PIX: ${CHAVE_PIX} - Valor: R$ ${valor.toFixed(2)}`;
         
-        // Mensagem para o CLIENTE (com senha e instruções)
-        let msgCliente = `✅ *AGENDAMENTO CONFIRMADO!*\n\n🏆 *Barbearia Camisa 12 Sports*\n\n` +
-            `👤 Nome: ${nome}\n✂️ Serviço: ${servicoNome}\n💰 Valor: R$ ${valor.toFixed(2)}\n` +
-            `💳 Pagamento: ${pagamentoTexto}\n📅 Data: ${dataFormatada}\n⏰ Horário: ${horarioSelecionado}\n\n` +
-            `🔔 *SUA SENHA DE ATENDIMENTO: ${senhaAtual}*\n\n` +
-            `📍 Aguardamos você!\n\n` +
-            `👉 *IMPORTANTE:* Anote ou salve esta senha. Apresente na barbearia no dia do seu horário.\n\n`;
+        let msgCliente = `✅ *AGENDAMENTO CONFIRMADO!*\n\n🏆 *Barbearia Camisa 12 Sports*\n\n👤 Nome: ${nome}\n✂️ Serviço: ${servicoNome}\n💰 Valor: R$ ${valor.toFixed(2)}\n💳 Pagamento: ${pagamentoTexto}\n📅 Data: ${dataFormatada}\n⏰ Horário: ${horarioSelecionado}\n\n🔔 *SUA SENHA DE ATENDIMENTO: ${senhaAtual}*\n\n📍 Aguardamos você!\n\n👉 *IMPORTANTE:* Anote ou salve esta senha.\n\n`;
         
         if(pagamentoSelecionado === 'pix') {
-            msgCliente += `🟣 *PAGAMENTO PIX*\nChave: ${CHAVE_PIX}\nValor: R$ ${valor.toFixed(2)}\n\n` +
-                `Como pagar:\n1. Copie a chave acima\n2. Abra o app do seu banco\n3. Cole a chave\n4. Digite o valor R$ ${valor.toFixed(2)}\n5. Confirme o pagamento`;
+            msgCliente += `🟣 *PAGAMENTO PIX*\nChave: ${CHAVE_PIX}\nValor: R$ ${valor.toFixed(2)}\n\nEscaneie o QR Code no site ou copie a chave.`;
         } else if(pagamentoSelecionado === 'cartao') {
             msgCliente += `💳 *Pagamento com Cartão*\nA máquina estará disponível no local.`;
         } else if(pagamentoSelecionado === 'dinheiro') {
             msgCliente += `💰 *Pagamento em Dinheiro*\nPague no local.`;
         }
         
-        // Salvar pedido
         let pedidos = JSON.parse(localStorage.getItem('barbearia_pedidos') || '[]');
         pedidos.unshift({ id: Date.now(), nome, whats, servico: servicoSelecionado, servicoNome, valor, data: dataSelecionada, dataFormatada, horario: horarioSelecionado, pagamento: pagamentoSelecionado, pagamentoTexto, senha: senhaAtual, obs, status: 'pendente' });
         localStorage.setItem('barbearia_pedidos', JSON.stringify(pedidos));
         
-        // Enviar WhatsApp
         enviarWhatsApp(DONO_WHATSAPP, msgDono);
         enviarWhatsApp(whats, msgCliente);
         
         alert(`✅ AGENDAMENTO REALIZADO!\n\n${servicoNome}\n📅 ${dataFormatada} às ${horarioSelecionado}\n💰 R$ ${valor.toFixed(2)}\n🎫 SENHA: ${senhaAtual}\n\n📱 Você receberá a confirmação no WhatsApp!`);
         
-        // Limpar campos
         document.getElementById('nome').value = '';
         document.getElementById('whats').value = '';
         document.getElementById('obs').value = '';
