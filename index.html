@@ -15,6 +15,7 @@
         .logo-emoji { font-size: 4.5rem; }
         .logo-text { margin-top: 10px; font-size: 0.8rem; letter-spacing: 3px; color: #e6b422; text-transform: uppercase; font-weight: bold; }
         .header h1 { color: white; font-size: 1.3rem; }
+        .header p { color: #ccc; font-size: 0.7rem; }
         .app-banner { background: linear-gradient(135deg, #2d2d44, #1a1a2e); border-radius: 25px; padding: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; border: 1px solid #e6b422; }
         .app-info { flex: 2; min-width: 180px; }
         .app-info h3 { color: #e6b422; font-size: 1rem; }
@@ -22,17 +23,17 @@
         .qr-code-app { text-align: center; background: white; padding: 12px; border-radius: 20px; cursor: pointer; min-width: 110px; }
         .qr-code-app canvas { width: 80px !important; height: 80px !important; }
         .qr-code-app small { font-size: 0.65rem; color: #555; display: block; }
+        .qr-code-app strong { color: #e6b422; font-size: 0.7rem; }
         .qr-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; }
         .qr-modal-content { background: white; border-radius: 30px; padding: 25px; text-align: center; max-width: 85%; }
         .qr-modal-content canvas { width: 250px !important; height: 250px !important; margin: 15px 0; }
         .modal-close { background: #e6b422; border: none; padding: 10px 20px; border-radius: 25px; margin-top: 10px; cursor: pointer; }
         .combo-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; }
         .combo-modal-content { background: white; border-radius: 30px; padding: 25px; max-width: 90%; width: 400px; text-align: center; }
-        .combo-modal-content h3 { color: #e6b422; text-align: center; margin-bottom: 20px; }
+        .combo-modal-content h3 { color: #e6b422; margin-bottom: 20px; }
         .combo-items { list-style: none; text-align: left; }
         .combo-items li { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; }
         .combo-total { background: #fff8e7; padding: 15px; border-radius: 15px; margin: 15px 0; text-align: center; }
-        .combo-total span { font-size: 1.2rem; font-weight: bold; color: #e6b422; }
         .service-select { margin-bottom: 15px; }
         .service-select label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
         .dropdown-select { width: 100%; padding: 14px; background: white; border: 2px solid #e0e0e0; border-radius: 20px; font-size: 1rem; cursor: pointer; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23e6b422" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>'); background-repeat: no-repeat; background-position: right 15px center; }
@@ -41,8 +42,8 @@
         .form-card { background: white; border-radius: 25px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         label { display: block; margin-top: 12px; margin-bottom: 5px; font-weight: 600; color: #333; }
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 15px; font-size: 1rem; }
-        .config-pix { background: #fff8e7; padding: 15px; border-radius: 15px; margin: 10px 0; border: 1px solid #e6b422; }
-        .pix-qr-section { text-align: center; margin-top: 10px; padding: 10px; background: white; border-radius: 15px; }
+        .config-pix { background: #fff8e7; padding: 15px; border-radius: 15px; margin: 10px 0; border: 1px solid #e6b422; text-align: center; }
+        .config-pix label { font-size: 0.85rem; font-weight: bold; }
         .pix-qr-code { display: flex; justify-content: center; margin: 10px 0; }
         .info-cartao { background: #e8f4f8; padding: 10px; border-radius: 12px; font-size: 0.7rem; text-align: center; margin-top: 5px; display: none; }
         .payment-options { display: flex; gap: 12px; margin-top: 5px; flex-wrap: wrap; }
@@ -115,16 +116,15 @@
             <div class="payment-card" data-pagamento="cartao"><div class="payment-icon">💳</div><div class="payment-name">Cartão</div></div>
         </div>
 
-        <!-- PIX - VERSÃO SIMPLIFICADA (SÓ CHAVE) -->
+        <!-- PIX - Configurado para Nubank -->
         <div class="config-pix">
-            <label>🔑 Chave PIX (digite sua chave correta):</label>
-            <input type="text" id="chavePixInput" placeholder="Email, CPF, Telefone ou CNPJ" value="barbearia12@gmail.com">
-            <div class="pix-qr-section">
-                <label>📱 QR Code PIX:</label>
-                <div class="pix-qr-code" id="pixQrCodeContainer"></div>
-                <small>Escaneie o QR Code com seu banco</small>
-                <small id="pixValorDisplay" style="display:block; margin-top:5px; font-weight:bold; color:#e6b422;"></small>
+            <label>🔑 PIX - Banco Nubank</label>
+            <div style="background:#6c2bd4; color:white; padding:8px; border-radius:12px; margin:5px 0; font-size:0.8rem;">
+                🟣 Chave: 10189438703
             </div>
+            <div class="pix-qr-code" id="pixQrCodeContainer"></div>
+            <small>Escaneie o QR Code com seu banco para pagar</small>
+            <small id="pixValorDisplay" style="display:block; margin-top:5px; font-weight:bold; color:#e6b422;"></small>
         </div>
 
         <div class="info-cartao" id="infoCartao">💳 Pagamento com Cartão: A máquina estará disponível no local.</div>
@@ -146,7 +146,7 @@
 </div>
 
 <div id="pixModal" class="modal">
-    <div class="modal-content"><h3>💳 Pagamento via PIX</h3><p>Chave PIX para copiar:</p><div class="pix-key" id="pixKeyDisplay"></div><button id="copyPixBtn" style="background:#e6b422; border:none; padding:8px 16px; border-radius:20px;">📋 Copiar Chave PIX</button><br><button class="modal-close" id="closePixModal">✅ Fechar</button></div>
+    <div class="modal-content"><h3>💳 Pagamento via PIX</h3><p>Use a chave abaixo para pagar:</p><div class="pix-key" id="pixKeyDisplay"></div><button id="copyPixBtn" style="background:#e6b422; border:none; padding:8px 16px; border-radius:20px;">📋 Copiar Chave PIX</button><br><button class="modal-close" id="closePixModal">✅ Fechar</button></div>
 </div>
 
 <div id="comboModal" class="combo-modal"><div class="combo-modal-content"><h3>🏆 COMBO CAMISA 12</h3><ul class="combo-items"><li><span>✂️ Corte Esportivo</span><span>R$ 40,00</span></li><li><span>🧔 Barba Premium</span><span>R$ 35,00</span></li><li><span>💈 Acabamento Especial</span><span>Incluso</span></li><li><span>💆 Toalha quente</span><span>Incluso</span></li><li><span>🧴 Produtos de qualidade</span><span>Incluso</span></li></ul><div class="combo-total"><span>💰 Total: R$ 70,00</span></div><button class="modal-close" id="closeComboModalBtn">Fechar</button></div></div>
@@ -155,9 +155,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
-    let CHAVE_PIX = "barbearia12@gmail.com";
+    // ========== CONFIGURAÇÕES PIX ==========
+    // CHAVE PIX DO BANCO NUBANK
+    const CHAVE_PIX = "10189438703";
     const DONO_WHATSAPP = "5521989533627";
     const LINK_APP = "https://guilherme8424.github.io/AppBarbearia12/";
+    // ===================================
 
     let precos = { corte: 40, barba: 35, combo: 70 };
     let servicoSelecionado = "corte";
@@ -170,14 +173,14 @@
     const horarios = ["09:00","09:40","10:20","11:00","11:40","13:00","13:40","14:20","15:00","15:40","16:20","17:00","17:40","18:20","19:00"];
     const pagamentoEmoji = { pix: "💳 PIX", dinheiro: "💰 Dinheiro", cartao: "💳 Cartão" };
 
-    // Função para gerar QR Code PIX - VERSÃO SIMPLIFICADA (APENAS CHAVE)
+    // Gerar QR Code PIX com a chave do Nubank
     function gerarPixQRCode(valor) {
         const valorFormatado = valor.toFixed(2);
         document.getElementById('pixValorDisplay').innerHTML = `💰 Valor: R$ ${valorFormatado}`;
         
-        if(document.getElementById('pixQrCodeContainer') && CHAVE_PIX && CHAVE_PIX !== "") {
+        if(document.getElementById('pixQrCodeContainer') && CHAVE_PIX) {
             document.getElementById('pixQrCodeContainer').innerHTML = '';
-            // Usa apenas a chave PIX (mais compatível)
+            // QR Code com a chave PIX
             new QRCode(document.getElementById('pixQrCodeContainer'), {
                 text: CHAVE_PIX,
                 width: 150,
@@ -198,10 +201,10 @@
 
     function atualizarPixQRCode() { let valor = servicoSelecionado === 'corte' ? precos.corte : (servicoSelecionado === 'barba' ? precos.barba : precos.combo); gerarPixQRCode(valor); }
     function toggleInfoCartao() { document.getElementById('infoCartao').style.display = pagamentoSelecionado === 'cartao' ? 'block' : 'none'; }
-    function atualizarChavePix() { const inputChave = document.getElementById('chavePixInput').value.trim(); if(inputChave) { CHAVE_PIX = inputChave; } atualizarPixQRCode(); }
     function atualizarTotal() { let valor = servicoSelecionado === 'corte' ? precos.corte : (servicoSelecionado === 'barba' ? precos.barba : precos.combo); document.getElementById('totalValor').innerHTML = `R$ ${valor.toFixed(2)}`; document.getElementById('servicoPriceDisplay').innerHTML = `💰 Valor: R$ ${(servicoSelecionado === 'corte' ? precos.corte : precos.barba).toFixed(2)}`; atualizarPixQRCode(); }
 
     function carregarPrecos() { document.getElementById('precoCombo').innerHTML = `R$ ${precos.combo}`; atualizarTotal(); }
+    
     function gerarCalendario() {
         const meses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
         document.getElementById('monthYear').innerHTML = `${meses[mesAtual]} ${anoAtual}`;
@@ -241,7 +244,12 @@
     function fecharModalCombo() { document.getElementById('comboModal').style.display = 'none'; }
     function abrirModalApp() { document.getElementById('qrAppModal').style.display = 'flex'; }
     function fecharModalApp() { document.getElementById('qrAppModal').style.display = 'none'; }
-    function enviarWhatsApp(numero, mensagem) { let numeroLimpo = numero.replace(/\D/g, ''); if (!numeroLimpo.startsWith('55')) { numeroLimpo = '55' + numeroLimpo; } window.open(`https://wa.me/${numeroLimpo}?text=${encodeURIComponent(mensagem)}`, '_blank'); }
+    
+    function enviarWhatsApp(numero, mensagem) { 
+        let numeroLimpo = numero.replace(/\D/g, ''); 
+        if (!numeroLimpo.startsWith('55')) { numeroLimpo = '55' + numeroLimpo; } 
+        window.open(`https://wa.me/${numeroLimpo}?text=${encodeURIComponent(mensagem)}`, '_blank'); 
+    }
 
     document.getElementById('servicoSelect').onchange = (e) => { servicoSelecionado = e.target.value; atualizarTotal(); };
     document.getElementById('prevMonth').onclick = () => { if(mesAtual === 0) { mesAtual = 11; anoAtual--; } else mesAtual--; gerarCalendario(); };
@@ -253,7 +261,6 @@
     document.getElementById('closePixModal').onclick = fecharModalPix;
     document.getElementById('qrCodeAppBtn').onclick = abrirModalApp;
     document.getElementById('closeQrAppModal').onclick = fecharModalApp;
-    document.getElementById('chavePixInput').addEventListener('input', () => { atualizarChavePix(); });
 
     document.getElementById('btnAgendar').onclick = () => {
         const nome = document.getElementById('nome').value.trim();
@@ -262,23 +269,30 @@
         if(!nome || !whats) { alert("⚠️ Preencha nome e WhatsApp!"); return; }
         if(!dataSelecionada) { alert("📅 Selecione uma data!"); return; }
         if(!horarioSelecionado) { alert("⏰ Selecione um horário!"); return; }
+        
         let servicoNome = servicoSelecionado === 'corte' ? '✂️ Corte' : (servicoSelecionado === 'barba' ? '🧔 Barba' : '🏆 Combo Camisa 12');
         let valor = servicoSelecionado === 'corte' ? precos.corte : (servicoSelecionado === 'barba' ? precos.barba : precos.combo);
         const dataFormatada = dataSelecionada.split('-').reverse().join('/');
         const pagamentoTexto = pagamentoEmoji[pagamentoSelecionado];
-        if(pagamentoSelecionado === 'pix') abrirModalPix();
-        atualizarChavePix();
+        
+        if(pagamentoSelecionado === 'pix') { abrirModalPix(); }
+        
         let msgDono = `🆕 *NOVO PEDIDO - Barbearia Camisa 12 Sports*\n\n👤 Cliente: ${nome}\n📞 WhatsApp: ${whats}\n✂️ Serviço: ${servicoNome}\n💰 Valor: R$ ${valor.toFixed(2)}\n💳 Pagamento: ${pagamentoTexto}\n📅 Data: ${dataFormatada}\n⏰ Horário: ${horarioSelecionado}\n💬 Obs: ${obs || 'Nenhuma'}\n\n✅ Aguardando confirmação.`;
         if(pagamentoSelecionado === 'pix') msgDono += `\n💰 PIX: ${CHAVE_PIX}`;
+        
         let msgCliente = `✅ *AGENDAMENTO CONFIRMADO!*\n\n🏆 *Barbearia Camisa 12 Sports*\n\n👤 Nome: ${nome}\n✂️ Serviço: ${servicoNome}\n💰 Valor: R$ ${valor.toFixed(2)}\n💳 Pagamento: ${pagamentoTexto}\n📅 Data: ${dataFormatada}\n⏰ Horário: ${horarioSelecionado}\n\n📍 Aguardamos você!`;
         if(pagamentoSelecionado === 'pix') msgCliente += `\n\n💰 *PIX*\nChave: ${CHAVE_PIX}\nValor: R$ ${valor.toFixed(2)}`;
         else if(pagamentoSelecionado === 'cartao') msgCliente += `\n\n💳 *Pagamento com Cartão*\nA máquina estará disponível no local.`;
+        
         let pedidos = JSON.parse(localStorage.getItem('barbearia_pedidos') || '[]');
-        pedidos.unshift({ id: Date.now(), nome, whats, servico: servicoSelecionado, servicoNombre: servicoNome, valor, data: dataSelecionada, dataFormatada, horario: horarioSelecionado, pagamento: pagamentoSelecionado, pagamentoTexto, obs, status: 'pendente' });
+        pedidos.unshift({ id: Date.now(), nome, whats, servico: servicoSelecionado, servicoNome, valor, data: dataSelecionada, dataFormatada, horario: horarioSelecionado, pagamento: pagamentoSelecionado, pagamentoTexto, obs, status: 'pendente' });
         localStorage.setItem('barbearia_pedidos', JSON.stringify(pedidos));
+        
         enviarWhatsApp(DONO_WHATSAPP, msgDono);
         enviarWhatsApp(whats, msgCliente);
+        
         alert(`✅ AGENDAMENTO REALIZADO!\n\n${servicoNome}\n📅 ${dataFormatada} às ${horarioSelecionado}\n💰 R$ ${valor.toFixed(2)}\n\n📱 Você receberá a confirmação no WhatsApp!`);
+        
         document.getElementById('nome').value = ''; document.getElementById('whats').value = ''; document.getElementById('obs').value = '';
         horarioSelecionado = null; dataSelecionada = null;
         document.querySelectorAll('.cal-day.selected').forEach(d => d.classList.remove('selected'));
